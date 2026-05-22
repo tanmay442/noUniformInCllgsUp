@@ -5,6 +5,7 @@ workers_dev = true
 
 
 [vars]
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 TURNSTILE_EXPECTED_ACTION = "vote"
 TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal.goeltanmay442.workers.dev"
 TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"
@@ -36,6 +37,7 @@ crons = ["*/10 * * * *"]
 
 [env.staging]
 [env.staging.vars]
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 TURNSTILE_EXPECTED_ACTION = "vote"
 TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal-staging.goeltanmay442.workers.dev"
 TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"
@@ -67,6 +69,7 @@ crons = ["*/10 * * * *"]
 
 [env.production]
 [env.production.vars]
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 TURNSTILE_EXPECTED_ACTION = "vote"
 TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal-production.goeltanmay442.workers.dev"
 TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"

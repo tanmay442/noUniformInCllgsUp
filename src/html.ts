@@ -1,32 +1,87 @@
-export const INDEX_HTML = `<!doctype html>
+export function renderIndexHtml(turnstileSiteKey: string): string {
+  return `<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UP Student Protest Portal</title>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <style>
-      :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color-scheme: light; }
-      body { margin: 0; background: #f8fafc; color: #0f172a; }
-      main { max-width: 760px; margin: 0 auto; padding: 1.25rem; }
-      .card { background: white; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 16px rgba(15,23,42,.08); margin-bottom: 1rem; }
-      .row { display: grid; gap: .5rem; margin-bottom: .75rem; }
-      label { font-weight: 600; }
-      input, select, button { font: inherit; padding: .6rem .75rem; border-radius: 8px; border: 1px solid #cbd5e1; }
-      button { cursor: pointer; border: none; background: #1d4ed8; color: white; font-weight: 600; }
-      button:disabled { opacity: .6; cursor: not-allowed; }
-      .muted { color: #475569; font-size: .9rem; }
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>UP Student Protest Portal</title>
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      <style>
+      :root { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: #0f172a;
+        background:
+          radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 30%),
+          linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+      }
+      main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 2rem; }
+      .hero {
+        background: rgba(255,255,255,.88);
+        border: 1px solid rgba(148,163,184,.24);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 20px 60px rgba(15,23,42,.08);
+        backdrop-filter: blur(10px);
+      }
+      .card {
+        background: rgba(255,255,255,.94);
+        border: 1px solid rgba(148,163,184,.18);
+        border-radius: 20px;
+        padding: 1.25rem;
+        box-shadow: 0 14px 36px rgba(15,23,42,.06);
+        margin-bottom: 1rem;
+      }
+      .row { display: grid; gap: .5rem; margin-bottom: .85rem; }
+      label { font-weight: 700; color: #0f172a; }
+      input, select, button {
+        font: inherit;
+        padding: .8rem .9rem;
+        border-radius: 12px;
+        border: 1px solid #cbd5e1;
+      }
+      input, select { background: #fff; }
+      button {
+        cursor: pointer;
+        border: none;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 10px 22px rgba(37, 99, 235, .22);
+      }
+      button:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
+      .muted { color: #475569; font-size: .95rem; }
       .hidden { display: none; }
-      #card-preview { border: 1px dashed #94a3b8; border-radius: 12px; padding: 1rem; background: linear-gradient(120deg,#dbeafe,#ecfeff); }
-      ul { padding-left: 1rem; }
+      #card-preview {
+        border: 1px solid rgba(148,163,184,.45);
+        border-radius: 16px;
+        padding: 1rem;
+        background: linear-gradient(120deg,#dbeafe,#ecfeff);
+      }
+      ul { padding-left: 1.1rem; }
+      h1, h2 { margin: 0 0 .9rem; line-height: 1.1; }
+      h1 { font-size: clamp(2rem, 4vw, 3rem); }
+      h2 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
+      .stack { display: grid; gap: 1rem; }
+      .lead { max-width: 56ch; color: #334155; }
     </style>
   </head>
   <body>
     <main>
-      <section class="card">
+      <section class="hero card">
         <h1>Anonymous Student Protest Portal</h1>
-        <p id="tally" aria-live="polite">Loading tally…</p>
-        <p id="updated" class="muted">Last updated: —</p>
+        <p class="lead">Cast a private vote, see live counts, and keep participation anonymous.</p>
+        <div class="stack" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 1rem;">
+          <div style="padding: 1rem; border-radius: 16px; background: rgba(255,255,255,.75); border: 1px solid rgba(148,163,184,.2);">
+            <div class="muted">Total protest votes</div>
+            <div id="tally" aria-live="polite" style="font-size: 2rem; font-weight: 800; margin-top: .25rem;">Loading…</div>
+          </div>
+          <div style="padding: 1rem; border-radius: 16px; background: rgba(255,255,255,.75); border: 1px solid rgba(148,163,184,.2);">
+            <div class="muted">Last updated</div>
+            <div id="updated" style="font-size: 1.05rem; font-weight: 700; margin-top: .35rem;">—</div>
+          </div>
+        </div>
       </section>
 
       <section class="card" id="vote-section">
@@ -43,7 +98,7 @@ export const INDEX_HTML = `<!doctype html>
             <label>Human verification</label>
             <div
               class="cf-turnstile"
-              data-sitekey="1x00000000000000000000AA"
+              data-sitekey="${turnstileSiteKey}"
               data-action="vote"
               data-callback="onTurnstileSuccess"
               data-expired-callback="onTurnstileExpired"
@@ -80,7 +135,7 @@ export const INDEX_HTML = `<!doctype html>
 
       <section class="card">
         <h2>Top colleges</h2>
-        <ul id="leaderboard"></ul>
+        <ul id="leaderboard" style="display:grid; gap:.45rem;"></ul>
       </section>
     </main>
 
@@ -269,3 +324,4 @@ export const INDEX_HTML = `<!doctype html>
   </body>
 </html>
 `;
+}

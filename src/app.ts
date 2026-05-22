@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { INDEX_HTML } from './html';
+import { renderIndexHtml } from './html';
 import { decodeCursor, encodeCursor } from './lib/cursor';
 import { hashWithPepper } from './lib/hash';
 import { cacheControl, jsonError, jsonSuccess } from './lib/http';
@@ -22,6 +22,7 @@ type CollegeRow = {
 };
 
 const app = new Hono<AppBindings>();
+const TEST_TURNSTILE_SECRET = '1x0000000000000000000000000000000AA';
 
 app.use('*', async (c, next) => {
   c.set('requestId', crypto.randomUUID());
@@ -38,7 +39,7 @@ app.onError((err, c) => {
 app.notFound((c) => jsonError(c, 404, 'NOT_FOUND', 'Route not found'));
 
 app.get('/', (c) =>
-  c.newResponse(INDEX_HTML, 200, {
+  c.newResponse(renderIndexHtml(c.env.TURNSTILE_SITE_KEY ?? ''), 200, {
     'content-type': 'text/html; charset=utf-8',
     'cache-control': 'public, max-age=0, s-maxage=30, stale-while-revalidate=60',
   }),
@@ -76,14 +77,15 @@ app.post('/api/vote', async (c) => {
   const ip = c.req.header('CF-Connecting-IP');
   const turnstileSecret = c.env.TURNSTILE_SECRET_VALUE || c.env.TURNSTILE_SECRET;
   const votePepper = c.env.VOTE_TOKEN_PEPPER_VALUE || c.env.VOTE_TOKEN_PEPPER;
+  const isTestTurnstile = turnstileSecret === TEST_TURNSTILE_SECRET;
 
   const turnstileResult = await verifyTurnstile({
     secret: turnstileSecret,
     response: vote.cf_turnstile_response,
     remoteIp: ip,
     idempotencyKey: vote.submission_id,
-    expectedAction: c.env.TURNSTILE_EXPECTED_ACTION,
-    expectedHostname: c.env.TURNSTILE_EXPECTED_HOSTNAME,
+    expectedAction: isTestTurnstile ? undefined : c.env.TURNSTILE_EXPECTED_ACTION,
+    expectedHostname: isTestTurnstile ? undefined : c.env.TURNSTILE_EXPECTED_HOSTNAME,
   });
 
   if (!turnstileResult.ok) {

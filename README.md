@@ -30,6 +30,8 @@ Fill `.dev.vars`:
 - `TURNSTILE_SECRET`
 - `VOTE_TOKEN_PEPPER`
 
+Set a real `TURNSTILE_SITE_KEY` in `wrangler.toml` for each environment before expecting production votes to verify.
+
 ## Cloudflare resource setup
 
 ```bash

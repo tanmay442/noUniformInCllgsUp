@@ -12,6 +12,7 @@ export interface Env {
   VOTE_EVENTS: Queue<VoteEvent>;
   TURNSTILE_SECRET: string;
   VOTE_TOKEN_PEPPER: string;
+  TURNSTILE_SITE_KEY?: string;
   TURNSTILE_SECRET_VALUE?: string;
   VOTE_TOKEN_PEPPER_VALUE?: string;
   TURNSTILE_EXPECTED_ACTION?: string;
