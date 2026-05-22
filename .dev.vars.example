@@ -1,0 +1,3 @@
+# Copy to .dev.vars for local development
+TURNSTILE_SECRET=replace_with_turnstile_secret
+VOTE_TOKEN_PEPPER=replace_with_long_random_pepper

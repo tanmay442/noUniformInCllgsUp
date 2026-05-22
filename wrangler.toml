@@ -1,0 +1,97 @@
+name = "up-anonymous-protest-portal"
+main = "src/worker.ts"
+compatibility_date = "2026-05-22"
+workers_dev = true
+
+
+[vars]
+TURNSTILE_EXPECTED_ACTION = "vote"
+TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal.goeltanmay442.workers.dev"
+TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"
+VOTE_TOKEN_PEPPER_VALUE = "cdbf99f39569d595ed43d7aca0010f7fb2ffc6e4b1cf917119fc828f49d2b0d42f4722520b22240b4d07523032058874"
+TALLY_CACHE_TTL = "10"
+LEADERBOARD_CACHE_TTL = "20"
+
+[[d1_databases]]
+binding = "VOTES_DB"
+database_name = "votes_db"
+database_id = "b125c9f1-027f-4f07-804e-7d19c13e297e"
+
+[[d1_databases]]
+binding = "COLLEGES_DB"
+database_name = "colleges_db"
+database_id = "eb17d597-2096-4ef3-b3f3-4e6049674cd8"
+
+[[queues.producers]]
+binding = "VOTE_EVENTS"
+queue = "vote-events"
+
+[[queues.consumers]]
+queue = "vote-events"
+max_batch_size = 100
+max_batch_timeout = 5
+
+[triggers]
+crons = ["*/10 * * * *"]
+
+[env.staging]
+[env.staging.vars]
+TURNSTILE_EXPECTED_ACTION = "vote"
+TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal-staging.goeltanmay442.workers.dev"
+TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"
+VOTE_TOKEN_PEPPER_VALUE = "c0c6ee2645a9556db45b267afa783709e8e899beb931069ed0e82d6d2866c11b6fa50f5489d1d23d1b0ec8b14f9bc1f5"
+TALLY_CACHE_TTL = "10"
+LEADERBOARD_CACHE_TTL = "20"
+
+[[env.staging.d1_databases]]
+binding = "VOTES_DB"
+database_name = "votes_db_staging"
+database_id = "980f5e94-3221-4810-aec1-62203a089bc0"
+
+[[env.staging.d1_databases]]
+binding = "COLLEGES_DB"
+database_name = "colleges_db_staging"
+database_id = "5e8b0298-37a1-40c4-a525-b9d177966f5e"
+
+[[env.staging.queues.producers]]
+binding = "VOTE_EVENTS"
+queue = "vote-events-staging"
+
+[[env.staging.queues.consumers]]
+queue = "vote-events-staging"
+max_batch_size = 100
+max_batch_timeout = 5
+
+[env.staging.triggers]
+crons = ["*/10 * * * *"]
+
+[env.production]
+[env.production.vars]
+TURNSTILE_EXPECTED_ACTION = "vote"
+TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal-production.goeltanmay442.workers.dev"
+TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"
+VOTE_TOKEN_PEPPER_VALUE = "b3c25b3f432cfe7e2be9451dd1c0defe5b7c321b1d218935b2a77bfeaf2a40633c762583d892e88a8e3c68c4ff41d813"
+TALLY_CACHE_TTL = "10"
+LEADERBOARD_CACHE_TTL = "20"
+
+[[env.production.d1_databases]]
+binding = "VOTES_DB"
+database_name = "votes_db_prod"
+database_id = "77a55f35-1c9b-4092-a545-4a72c4af68b6"
+
+[[env.production.d1_databases]]
+binding = "COLLEGES_DB"
+database_name = "colleges_db_prod"
+database_id = "e38180e2-acae-4071-bb30-af95f70c9f5c"
+
+[[env.production.queues.producers]]
+binding = "VOTE_EVENTS"
+queue = "vote-events-prod"
+
+[[env.production.queues.consumers]]
+queue = "vote-events-prod"
+max_batch_size = 100
+max_batch_timeout = 5
+
+[env.production.triggers]
+crons = ["*/5 * * * *"]

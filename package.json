@@ -1,19 +1,36 @@
 {
-	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.16.9",
-		"@cloudflare/workers-types": "^4.20260522.1",
-		"@types/node": "^25.9.1",
-		"eslint": "^10.4.0",
-		"prettier": "^3.8.3",
-		"typescript": "^6.0.3",
-		"vitest": "^4.1.7",
-		"wrangler": "^4.94.0"
-	},
-	"dependencies": {
-		"@astrojs/cloudflare": "^13.5.4",
-		"@hono/zod-validator": "^0.8.0",
-		"astro": "^6.3.7",
-		"hono": "^4.12.22",
-		"zod": "^4.4.3"
-	}
+  "name": "up-anonymous-protest-portal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm exec wrangler dev",
+    "deploy": "pnpm exec wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:list": "pnpm exec wrangler d1 list",
+    "db:apply:votes": "pnpm exec wrangler d1 execute votes_db --file ./migrations/votes.sql --remote",
+    "db:apply:colleges": "pnpm exec wrangler d1 execute colleges_db --file ./migrations/colleges.sql --remote",
+    "db:seed:colleges": "pnpm exec wrangler d1 execute colleges_db --file ./seed/colleges.sql --remote",
+    "seed:generate": "node scripts/generate-colleges-seed.mjs",
+    "bisect:check": "./scripts/bisect-check.sh"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^13.5.4",
+    "@hono/zod-validator": "^0.8.0",
+    "astro": "^6.3.7",
+    "hono": "^4.12.22",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.16.9",
+    "@cloudflare/workers-types": "^4.20260522.1",
+    "@types/node": "^25.9.1",
+    "eslint": "^10.4.0",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7",
+    "wrangler": "^4.94.0"
+  }
 }

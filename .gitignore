@@ -1,4 +1,10 @@
 *.md
+!README.md
 node_modules
 .wrangler
 .env
+.enc
+.dev.vars
+coverage
+dist
+.astro
