@@ -1,4 +1,5 @@
 import type { Env, VoteEvent } from './types';
+import { logWorker } from './lib/log';
 
 function isVoteEvent(value: unknown): value is VoteEvent {
   if (!value || typeof value !== 'object') {
@@ -13,9 +14,12 @@ function isVoteEvent(value: unknown): value is VoteEvent {
 export async function consumeVoteEvents(batch: MessageBatch<unknown>, env: Env): Promise<void> {
   const increments = new Map<number, number>();
   let insertedCount = 0;
+  let dedupedCount = 0;
+  let invalidCount = 0;
 
   for (const message of batch.messages) {
     if (!isVoteEvent(message.body)) {
+      invalidCount += 1;
       continue;
     }
 
@@ -26,6 +30,7 @@ export async function consumeVoteEvents(batch: MessageBatch<unknown>, env: Env):
       .run();
 
     if (Number(dedupe.meta.changes ?? 0) === 0) {
+      dedupedCount += 1;
       continue;
     }
 
@@ -34,6 +39,7 @@ export async function consumeVoteEvents(batch: MessageBatch<unknown>, env: Env):
   }
 
   if (insertedCount === 0) {
+    logWorker('queue_batch_empty', { total: batch.messages.length, deduped: dedupedCount, invalid: invalidCount });
     return;
   }
 
@@ -50,4 +56,12 @@ export async function consumeVoteEvents(batch: MessageBatch<unknown>, env: Env):
   statements.push(env.COLLEGES_DB.prepare("UPDATE stats SET value = value + ? WHERE key = 'global_total'").bind(insertedCount));
 
   await env.COLLEGES_DB.batch(statements);
+
+  logWorker('queue_batch_processed', {
+    total: batch.messages.length,
+    inserted: insertedCount,
+    deduped: dedupedCount,
+    invalid: invalidCount,
+    colleges_updated: increments.size,
+  });
 }

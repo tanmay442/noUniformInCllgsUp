@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { decodeCursor, encodeCursor } from './lib/cursor';
 import { hashWithPepper } from './lib/hash';
 import { cacheControl, jsonError, jsonSuccess } from './lib/http';
-import { logError } from './lib/log';
+import { logError, logInfo } from './lib/log';
 import { buildVotedCookie, isSameOrigin, securityHeaders } from './lib/security';
 import { verifyTurnstile } from './lib/turnstile';
 import { leaderboardQuerySchema, votePayloadSchema } from './lib/validation';
@@ -39,6 +39,31 @@ app.notFound((c) => jsonError(c, 404, 'NOT_FOUND', 'Route not found'));
 
 
 app.get('/healthz', (c) => jsonSuccess(c, { status: 'ok' }));
+
+app.get('/api/status', async (c) => {
+  try {
+    const collegeCount = await c.env.COLLEGES_DB.prepare('SELECT COUNT(*) AS count FROM colleges_list').first<{ count: number }>();
+    const totalRow = await c.env.COLLEGES_DB.prepare("SELECT value FROM stats WHERE key = 'global_total' LIMIT 1").first<{ value: number }>();
+    const voteLogCount = await c.env.VOTES_DB.prepare('SELECT COUNT(*) AS count FROM votes_log').first<{ count: number }>();
+
+    logInfo(c, 'status_check', {
+      colleges: collegeCount?.count ?? 0,
+      votes: voteLogCount?.count ?? 0,
+      tally: totalRow?.value ?? 0,
+    });
+
+    return jsonSuccess(c, {
+      status: 'healthy',
+      uptime: Math.floor(performance.now() / 1000),
+      colleges: collegeCount?.count ?? 0,
+      votes_logged: voteLogCount?.count ?? 0,
+      global_tally: totalRow?.value ?? 0,
+    });
+  } catch (err) {
+    logError(c, err);
+    return jsonError(c, 500, 'STATUS_FAILED', 'Could not query status');
+  }
+});
 
 app.get('/api/config', (c) =>
   jsonSuccess(c, {

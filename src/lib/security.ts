@@ -8,7 +8,17 @@ export const securityHeaders: MiddlewareHandler = async (c, next) => {
   c.header('Referrer-Policy', 'strict-origin-when-cross-origin');
   c.header('X-Frame-Options', 'DENY');
   c.header('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  c.header('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self'");
+  c.header(
+    'Content-Security-Policy',
+    "default-src 'self'; " +
+      "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; " +
+      "style-src 'self' 'unsafe-inline'; " +
+      "img-src 'self' data:; " +
+      "connect-src 'self' https://challenges.cloudflare.com; " +
+      "frame-src https://challenges.cloudflare.com; " +
+      "base-uri 'self'; " +
+      "form-action 'self'",
+  );
 };
 
 export function isSameOrigin(c: Context): boolean {

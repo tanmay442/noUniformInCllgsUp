@@ -1,4 +1,5 @@
 import type { Env } from './types';
+import { logWorker } from './lib/log';
 
 type VoteCountRow = {
   college_id: number;
@@ -36,4 +37,9 @@ export async function reconcileProjection(env: Env): Promise<void> {
   if (updates.length > 0) {
     await env.COLLEGES_DB.batch(updates);
   }
+
+  logWorker('reconciliation_complete', {
+    colleges_updated: authoritativeCounts.results?.length ?? 0,
+    total_votes: Number(totalRow?.total_votes ?? 0),
+  });
 }

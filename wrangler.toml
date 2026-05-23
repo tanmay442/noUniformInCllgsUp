@@ -6,11 +6,10 @@ workers_dev = true
 [assets]
 directory = "./dist"
 
-
 [vars]
-TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+TURNSTILE_SITE_KEY = "0x4AAAAAADU8-xhjM-jNwn_H"
 TURNSTILE_EXPECTED_ACTION = "vote"
-TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal.goeltanmay442.workers.dev"
+TURNSTILE_EXPECTED_HOSTNAME = "nouniformcampusup.me"
 TALLY_CACHE_TTL = "10"
 LEADERBOARD_CACHE_TTL = "20"
 
@@ -42,9 +41,9 @@ crons = ["*/10 * * * *"]
 
 [env.staging]
 [env.staging.vars]
-TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+TURNSTILE_SITE_KEY = "0x4AAAAAADU8-xhjM-jNwn_H"
 TURNSTILE_EXPECTED_ACTION = "vote"
-TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal-staging.goeltanmay442.workers.dev"
+TURNSTILE_EXPECTED_HOSTNAME = "nouniformcampusup.me"
 TALLY_CACHE_TTL = "10"
 LEADERBOARD_CACHE_TTL = "20"
 
@@ -76,9 +75,9 @@ crons = ["*/10 * * * *"]
 
 [env.production]
 [env.production.vars]
-TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+TURNSTILE_SITE_KEY = "0x4AAAAAADU8-xhjM-jNwn_H"
 TURNSTILE_EXPECTED_ACTION = "vote"
-TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal-production.goeltanmay442.workers.dev"
+TURNSTILE_EXPECTED_HOSTNAME = "nouniformcampusup.me"
 TALLY_CACHE_TTL = "10"
 LEADERBOARD_CACHE_TTL = "20"
 
