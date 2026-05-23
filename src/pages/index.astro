@@ -1565,7 +1565,7 @@
               <p class="counter-updated" id="updated">Live count warming up</p>
             </div>
 
-            <a href="#vote-zone" class="hero-cta">Cast Your Vote Now</a>
+            <a href="#vote-zone" class="hero-cta" id="hero-cta">Cast Your Vote Now</a>
           </div>
         </div>
       </section>
@@ -2677,6 +2677,19 @@
         initializeVotedExperience();
       } else {
         syncSubmitState();
+      }
+
+      const heroCtaEl = document.getElementById('hero-cta');
+      if (heroCtaEl) {
+        heroCtaEl.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById('vote-zone');
+          if (target) {
+            requestAnimationFrame(() => {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          }
+        });
       }
 
       const footerXLink = document.getElementById('footer-x-link');
