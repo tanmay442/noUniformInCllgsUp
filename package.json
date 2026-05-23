@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "dev:worker": "wrangler dev --remote",
     "build": "astro build",
     "preview": "astro preview",
     "deploy": "pnpm run build && pnpm exec wrangler deploy",

@@ -40,6 +40,13 @@ app.notFound((c) => jsonError(c, 404, 'NOT_FOUND', 'Route not found'));
 
 app.get('/healthz', (c) => jsonSuccess(c, { status: 'ok' }));
 
+app.get('/api/config', (c) =>
+  jsonSuccess(c, {
+    turnstile_site_key: c.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA',
+    turnstile_action: c.env.TURNSTILE_EXPECTED_ACTION ?? 'vote',
+  }),
+);
+
 app.post('/api/vote', async (c) => {
   if (!isSameOrigin(c)) {
     return jsonError(c, 403, 'ORIGIN_NOT_ALLOWED', 'Cross-origin requests are not allowed');
@@ -68,13 +75,10 @@ app.post('/api/vote', async (c) => {
   }
 
   const ip = c.req.header('CF-Connecting-IP');
-  const turnstileSecret = c.env.TURNSTILE_SECRET;
   const votePepper = c.env.VOTE_TOKEN_PEPPER;
-  const isTestTurnstile = turnstileSecret === TEST_TURNSTILE_SECRET;
 
-  if (!turnstileSecret) {
-    return jsonError(c, 500, 'TURNSTILE_MISCONFIGURED', 'Human verification not configured');
-  }
+  const turnstileSecret = c.env.TURNSTILE_SECRET || TEST_TURNSTILE_SECRET;
+  const isTestTurnstile = turnstileSecret === TEST_TURNSTILE_SECRET;
 
   if (!votePepper) {
     return jsonError(c, 500, 'VOTE_SECURITY_MISCONFIGURED', 'Vote security is not configured');

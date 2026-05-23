@@ -1,6 +1,3 @@
----
-const turnstileSiteKey = '1x00000000000000000000AA';
----
 <!doctype html>
 <html lang="en">
   <head>
@@ -48,6 +45,15 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
       main {
         display: block;
+      }
+
+      section {
+        scroll-margin-top: 120px;
+      }
+
+      section:not(.impact) {
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 860px;
       }
 
       h1,
@@ -155,12 +161,46 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
       .counter {
         margin-top: 0.5rem;
+        display: inline-flex;
+        align-items: flex-end;
+        gap: 0.04em;
         font-family: 'Chakra Petch', 'Courier New', monospace;
         font-size: clamp(2.2rem, 8vw, 4.2rem);
         font-weight: 700;
+        letter-spacing: 0.08em;
         color: var(--crimson);
-        filter: drop-shadow(0 0 16px oklch(0.58 0.22 16 / 0.78));
+        text-shadow:
+          0 0 8px oklch(0.58 0.2 16 / 0.4),
+          0 0 18px oklch(0.58 0.2 16 / 0.2);
         animation: counter-pulse 2.6s ease-out infinite;
+      }
+
+      .counter-char {
+        display: inline-flex;
+        justify-content: center;
+        align-items: flex-end;
+        min-width: 0.58em;
+        line-height: 1;
+      }
+
+      .counter-roll {
+        position: relative;
+        display: inline-flex;
+        justify-content: center;
+        align-items: flex-start;
+        inline-size: 0.58em;
+        block-size: 1.02em;
+        overflow: hidden;
+      }
+
+      .counter-roll-track {
+        display: grid;
+        transition: transform 620ms cubic-bezier(0.19, 0.9, 0.24, 1);
+      }
+
+      .counter-roll-track > span {
+        block-size: 1.02em;
+        line-height: 1;
       }
 
       .counter.bump {
@@ -236,7 +276,8 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       .manifesto {
         background: var(--paper);
         color: var(--paper-ink);
-        padding: clamp(2.4rem, 7vw, 5.2rem) 0;
+        padding-top: clamp(4rem, 10vw, 8rem);
+        padding-bottom: clamp(2.4rem, 7vw, 5.2rem);
       }
 
       .section-kicker {
@@ -304,7 +345,8 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       }
 
       .action-zone {
-        padding: clamp(2.2rem, 7vw, 5rem) 0;
+        padding-top: clamp(4rem, 10vw, 8rem);
+        padding-bottom: clamp(2.2rem, 7vw, 5rem);
       }
 
       .action-layout {
@@ -692,6 +734,8 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         border-radius: 6px;
         position: relative;
         overflow: hidden;
+        box-shadow:
+          0 20px 50px rgba(0,0,0,0.35);
       }
 
       .open-letter::before {
@@ -702,6 +746,33 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         right: 0;
         height: 3px;
         background: linear-gradient(90deg, var(--crimson), oklch(0.65 0.18 16), var(--crimson));
+      }
+
+      .open-letter::after {
+        content: 'OFFICIAL MEMORANDUM';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-25deg);
+        font-family: 'Anton', Impact, sans-serif;
+        font-size: clamp(4rem, 12vw, 8rem);
+        color: oklch(0.25 0.02 345 / 0.07);
+        pointer-events: none;
+        white-space: nowrap;
+        letter-spacing: 0.15em;
+        user-select: none;
+        line-height: 1;
+      }
+
+      .open-letter {
+        background-image:
+          repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 40px,
+            oklch(0.3 0.02 345 / 0.02) 40px,
+            oklch(0.3 0.02 345 / 0.02) 41px
+          );
       }
 
       .letter-header {
@@ -806,7 +877,8 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
       /* Leaderboard */
       .leaderboard-zone {
-        padding: clamp(2.2rem, 7vw, 5rem) 0 clamp(2.8rem, 7vw, 5.6rem);
+        padding-top: clamp(4rem, 10vw, 8rem);
+        padding-bottom: clamp(2.8rem, 7vw, 5.6rem);
       }
 
       .leaderboard-zone > .shell > p {
@@ -828,6 +900,8 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         padding: 0.88rem 0.95rem 0.88rem 2.8rem;
         font: inherit;
         font-size: 1rem;
+        border-radius: 10px;
+        transition: all 0.2s ease;
       }
 
       #leaderboard-search::placeholder {
@@ -837,6 +911,25 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       #leaderboard-search:focus-visible {
         outline: 2px solid var(--focus);
         outline-offset: 2px;
+      }
+
+      #leaderboard-search:focus {
+        border-color: var(--crimson);
+        box-shadow: 0 0 0 4px oklch(0.58 0.2 16 / 0.15);
+        outline: none;
+      }
+
+      .lb-search-count {
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      .lb-name mark {
+        background: oklch(0.58 0.2 16 / 0.3);
+        color: inherit;
+        padding: 0 2px;
+        border-radius: 2px;
       }
 
       .leaderboard-search-icon {
@@ -881,18 +974,32 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         align-items: center;
         border-bottom: 1px solid oklch(0.27 0.024 330);
         min-height: 72px;
+        transition: transform 200ms ease, background 200ms ease;
       }
 
       .lb-row:last-child {
         border-bottom: 0;
       }
 
-      .lb-row:hover {
-        background: oklch(0.2 0.025 340 / 0.4);
+      .lb-row:nth-child(even) {
+        background: oklch(0.16 0.014 308);
       }
 
-      .lb-row.top-row {
-        background: oklch(0.24 0.06 16 / 0.27);
+      .lb-row.top-1 {
+        border-left: 4px solid gold;
+      }
+
+      .lb-row.top-2 {
+        border-left: 4px solid silver;
+      }
+
+      .lb-row.top-3 {
+        border-left: 4px solid #cd7f32;
+      }
+
+      .lb-row:hover {
+        transform: translateX(2px);
+        background: oklch(0.2 0.025 340 / 0.4);
       }
 
       .lb-cell {
@@ -1107,14 +1214,77 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         }
       }
 
+      @media (max-width: 860px) {
+        .headline {
+          font-size: clamp(2rem, 7vw, 2.8rem);
+        }
+      }
+
       @media (max-width: 640px) {
         .lb-row,
         .lb-header {
-          grid-template-columns: 56px minmax(0, 1fr) 72px;
+          grid-template-columns: 44px minmax(0, 1fr) 62px;
+        }
+
+        .lb-cell {
+          padding: 0.6rem 0.5rem;
         }
 
         .lb-name {
-          font-size: 0.88rem;
+          font-size: 0.82rem;
+        }
+
+        .lb-rank {
+          font-size: 0.82rem;
+        }
+
+        .lb-votes {
+          font-size: 0.85rem;
+        }
+
+        .share-actions {
+          flex-direction: column;
+        }
+
+        .share-actions .share-link,
+        .share-actions #download-card {
+          width: 100%;
+          text-align: center;
+          padding: 0.9rem 0.5rem;
+          font-size: 0.9rem;
+        }
+
+        .open-letter {
+          padding: 1.2rem;
+        }
+
+        .letter-body {
+          font-size: 0.9rem;
+        }
+
+        .integrity-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-cta {
+          width: 100%;
+          text-align: center;
+          padding: 1rem 1.2rem;
+        }
+
+        #institution-search,
+        #card-name,
+        #leaderboard-search {
+          font-size: 16px;
+          padding: 0.9rem 0.8rem;
+        }
+
+        .headline {
+          font-size: clamp(1.8rem, 8vw, 2.4rem);
+        }
+
+        .hero-subhead {
+          font-size: 0.95rem;
         }
       }
 
@@ -1189,7 +1359,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
               <div class="letter-meta">
                 <p><strong>Date:</strong> May 2026</p>
                 <p><strong>To:</strong> The Honorable Governor of Uttar Pradesh / Chancellor of State Universities</p>
-                <p><strong>From:</strong> The United Student Body of Uttar Pradesh Colleges</p>
+                <p><strong>From:</strong> Students of Uttar Pradesh</p>
                 <p><strong>Subject:</strong> Appeal Against the Mandating of Standardized Uniform Dress Codes</p>
               </div>
             </div>
@@ -1323,16 +1493,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
               <div class="field">
                 <label>Human verification</label>
-                <div class="turnstile-wrap">
-                  <div
-                    class="cf-turnstile"
-                    data-sitekey={turnstileSiteKey}
-                    data-action="vote"
-                    data-callback="onTurnstileSuccess"
-                    data-expired-callback="onTurnstileExpired"
-                    data-error-callback="onTurnstileError"
-                  ></div>
-                </div>
+                <div class="turnstile-wrap" id="turnstile-widget"></div>
                 <p class="field-hint">No email. No phone number. One verified vote per device.</p>
               </div>
 
@@ -1372,7 +1533,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
                 <div class="share-actions" style="margin-top: 0.8rem;">
                   <button id="download-card" type="button">Download and Share</button>
-                  <a id="share-whatsapp" class="share-link" href="#" target="_blank" rel="noreferrer">WhatsApp</a>
+                  <a id="share-instagram" class="share-link" href="#">Instagram</a>
                   <a id="share-x" class="share-link" href="#" target="_blank" rel="noreferrer">X</a>
                 </div>
               </div>
@@ -1386,9 +1547,9 @@ const turnstileSiteKey = '1x00000000000000000000AA';
               </article>
 
               <article class="template">
-                <h4>Pre-written WhatsApp forward</h4>
-                <pre id="wa-template"></pre>
-                <button type="button" data-copy-target="wa-template">Copy WhatsApp text</button>
+                <h4>Instagram caption</h4>
+                <pre id="ig-template"></pre>
+                <button type="button" data-copy-target="ig-template">Copy caption</button>
               </article>
             </div>
           </section>
@@ -1434,6 +1595,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
             </svg>
             <input type="text" id="leaderboard-search" placeholder="Search your college to see current momentum..." autocomplete="off"/>
           </div>
+          <p class="lb-search-count" id="lb-search-count"></p>
 
           <div class="leaderboard-wrap">
             <div class="lb-header" aria-hidden="true">
@@ -1453,6 +1615,8 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       const tokenKey = 'up_uniform_vote_token';
       const votedInstitutionKey = 'up_uniform_voted_institution';
       const collegesVersion = '2026-05-23-uni-list';
+      const defaultTurnstileSiteKey = '1x00000000000000000000AA';
+      const defaultTurnstileAction = 'vote';
 
       const tallyEl = document.getElementById('tally');
       const updatedEl = document.getElementById('updated');
@@ -1475,14 +1639,16 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       const cardTitleEl = document.getElementById('card-title');
       const cardSubtitleEl = document.getElementById('card-subtitle');
       const downloadCardEl = document.getElementById('download-card');
-      const shareWhatsAppEl = document.getElementById('share-whatsapp');
+      const shareInstagramEl = document.getElementById('share-instagram');
       const shareXEl = document.getElementById('share-x');
       const xTemplateEl = document.getElementById('x-template');
-      const waTemplateEl = document.getElementById('wa-template');
+      const igTemplateEl = document.getElementById('ig-template');
       const leaderboardSearchEl = document.getElementById('leaderboard-search');
       const leaderboardNoResultEl = document.getElementById('leaderboard-no-result');
 
       let turnstileToken = '';
+      let turnstileSiteKey = defaultTurnstileSiteKey;
+      let turnstileAction = defaultTurnstileAction;
       let colleges = [];
       let visibleMatches = [];
       let activeMatchIndex = -1;
@@ -1512,17 +1678,31 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       }
 
       function renderCounter(displayValue) {
-        const previousChars = Array.from(previousCounterDisplay);
         tallyEl.innerHTML = '';
 
-        Array.from(displayValue).forEach((char, index) => {
-          const digit = document.createElement('span');
-          digit.className = 'digit';
-          digit.textContent = char === ' ' ? '\u00A0' : char;
-          if (previousChars[index] !== char) {
-            digit.classList.add('flip');
+        Array.from(displayValue).forEach((char) => {
+          if (char >= '0' && char <= '9') {
+            const digit = parseInt(char);
+            const roll = document.createElement('span');
+            roll.className = 'counter-roll';
+
+            const track = document.createElement('span');
+            track.className = 'counter-roll-track';
+            for (let i = 0; i <= 9; i++) {
+              const d = document.createElement('span');
+              d.textContent = i;
+              track.append(d);
+            }
+            track.style.transform = 'translateY(-' + (digit * 1.02) + 'em)';
+
+            roll.append(track);
+            tallyEl.append(roll);
+          } else {
+            const span = document.createElement('span');
+            span.className = 'counter-char';
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            tallyEl.append(span);
           }
-          tallyEl.append(digit);
         });
 
         previousCounterDisplay = displayValue;
@@ -1621,27 +1801,24 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         );
       }
 
-      function buildWhatsAppText(link) {
+      function buildInstagramCaption(link) {
         return (
-          'UP College Uniform Protest 2026\n' +
-          'They want to treat university students like school children. It is time to show our numbers.\n\n' +
-          'I just cast my vote against the mandatory uniform rule. It takes 10 seconds, requires NO email, and is 100% private.\n' +
-          '• Cast your vote here: ' +
-          link +
-          '\n\nForward this to your hostel and class groups. Let us cross 1 Lakh signatures today! #NoToUPCollegeUniform'
+          'I just voted against the UP college uniform mandate.\n' +
+          'Adult students deserve dignity, not dress codes.\n\n' +
+          'Cast your vote here: ' + link + '\n' +
+          '#NoToUPCollegeUniform #MyCampusMyChoice'
         );
       }
 
       function updateSharePayload(institutionLabel) {
         const link = location.href;
         const xText = buildXText(link);
-        const waText = buildWhatsAppText(link);
+        const igCaption = buildInstagramCaption(link);
 
         cardSubtitleEl.textContent = 'Institution: ' + institutionLabel;
         xTemplateEl.textContent = xText;
-        waTemplateEl.textContent = waText;
+        igTemplateEl.textContent = igCaption;
         shareXEl.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(xText);
-        shareWhatsAppEl.href = 'https://wa.me/?text=' + encodeURIComponent(waText);
       }
 
       function revealSuccess(institutionLabel) {
@@ -1698,9 +1875,14 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         }
       }
 
-      function renderLeaderboardRows(rows, maxVotes) {
+      function renderLeaderboardRows(rows, maxVotes, query) {
         leaderboardEl.innerHTML = '';
         leaderboardNoResultEl.classList.add('hidden');
+
+        const countEl = document.getElementById('lb-search-count');
+        if (countEl) {
+          countEl.textContent = rows.length ? rows.length + ' institution' + (rows.length > 1 ? 's' : '') + ' found' : '';
+        }
 
         if (!rows.length) {
           const empty = document.createElement('div');
@@ -1719,11 +1901,22 @@ const turnstileSiteKey = '1x00000000000000000000AA';
           const rank = row._rank !== undefined ? row._rank : index + 1;
 
           const el = document.createElement('div');
-          el.className = 'lb-row' + (rank === 1 ? ' top-row' : '');
+          var topClass = '';
+          if (rank === 1) topClass = ' top-1';
+          else if (rank === 2) topClass = ' top-2';
+          else if (rank === 3) topClass = ' top-3';
+          el.className = 'lb-row' + topClass;
+
+          var displayLabel = label;
+          if (query) {
+            var re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+            displayLabel = label.replace(re, '<mark>$1</mark>');
+          }
+
           el.innerHTML =
             '<div class="lb-cell lb-rank">#' + rank + '</div>' +
             '<div class="lb-cell lb-info-cell">' +
-              '<div class="lb-name">' + label + '</div>' +
+              '<div class="lb-name">' + displayLabel + '</div>' +
               '<div class="lb-bar-track"><div class="lb-bar-fill" style="width: ' + pct + '%"></div></div>' +
             '</div>' +
             '<div class="lb-cell lb-votes">' + votes.toLocaleString('en-IN') + '</div>';
@@ -1755,6 +1948,28 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         }
       }
 
+      async function loadRuntimeConfig() {
+        try {
+          const response = await fetch('/api/config', { cache: 'no-store' });
+          if (!response.ok) {
+            return;
+          }
+
+          const data = await response.json();
+
+          if (typeof data.turnstile_site_key === 'string' && data.turnstile_site_key.trim()) {
+            turnstileSiteKey = data.turnstile_site_key.trim();
+          }
+
+          if (typeof data.turnstile_action === 'string' && data.turnstile_action.trim()) {
+            turnstileAction = data.turnstile_action.trim();
+          }
+        } catch {
+          turnstileSiteKey = defaultTurnstileSiteKey;
+          turnstileAction = defaultTurnstileAction;
+        }
+      }
+
       function filterLeaderboard(query) {
         if (!query) {
           renderLeaderboardRows(leaderboardData);
@@ -1766,8 +1981,9 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         const filtered = leaderboardData.filter(row => row._label.includes(query));
 
         if (filtered.length) {
-          renderLeaderboardRows(filtered, maxVotes);
+          renderLeaderboardRows(filtered, maxVotes, query);
           leaderboardNoResultEl.classList.add('hidden');
+          autoScrollToRow(filtered, query);
         } else {
           leaderboardEl.innerHTML = '';
           leaderboardNoResultEl.classList.remove('hidden');
@@ -1775,28 +1991,49 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         }
       }
 
-      leaderboardSearchEl.addEventListener('input', () => {
-        const query = (leaderboardSearchEl.value || '').trim().toLowerCase();
-        filterLeaderboard(query);
+      function autoScrollToRow(rows, query) {
+        var match = rows.find(function(r) { return r._label === query; });
+        if (!match) return;
+        var el = leaderboardEl.querySelector('.lb-name mark');
+        if (el) {
+          el.closest('.lb-row').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+
+      var searchDebounce = null;
+      leaderboardSearchEl.addEventListener('input', function() {
+        var query = (leaderboardSearchEl.value || '').trim().toLowerCase();
+        if (searchDebounce) clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(function() {
+          filterLeaderboard(query);
+        }, 150);
       });
 
-      window.onTurnstileSuccess = function (token) {
-        turnstileToken = token;
-        voteMessageEl.textContent = '';
-        syncSubmitState();
-      };
-
-      window.onTurnstileExpired = function () {
-        turnstileToken = '';
-        voteMessageEl.textContent = 'Human verification expired. Please verify again.';
-        syncSubmitState();
-      };
-
-      window.onTurnstileError = function () {
-        turnstileToken = '';
-        voteMessageEl.textContent = 'Human verification failed. Please retry.';
-        syncSubmitState();
-      };
+      function renderTurnstile() {
+        if (window.turnstile) {
+          window.turnstile.render('#turnstile-widget', {
+            sitekey: turnstileSiteKey,
+            action: turnstileAction,
+            callback: function (token) {
+              turnstileToken = token;
+              voteMessageEl.textContent = '';
+              syncSubmitState();
+            },
+            'expired-callback': function () {
+              turnstileToken = '';
+              voteMessageEl.textContent = 'Human verification expired. Please verify again.';
+              syncSubmitState();
+            },
+            'error-callback': function () {
+              turnstileToken = '';
+              voteMessageEl.textContent = 'Human verification failed. Please retry.';
+              syncSubmitState();
+            },
+          });
+        } else {
+          setTimeout(renderTurnstile, 300);
+        }
+      }
 
       institutionSearchEl.addEventListener('input', () => {
         const query = institutionSearchEl.value.trim();
@@ -2018,6 +2255,19 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         link.click();
       });
 
+      shareInstagramEl.addEventListener('click', function(event) {
+        event.preventDefault();
+        downloadCardEl.click();
+        var caption = igTemplateEl.textContent || '';
+        if (caption) {
+          navigator.clipboard.writeText(caption).then(function() {
+            var prev = shareInstagramEl.textContent;
+            shareInstagramEl.textContent = 'Downloaded + Copied';
+            setTimeout(function() { shareInstagramEl.textContent = prev; }, 2000);
+          }).catch(function() {});
+        }
+      });
+
       document.querySelectorAll('[data-copy-target]').forEach((button) => {
         button.addEventListener('click', async () => {
           const targetId = button.getAttribute('data-copy-target');
@@ -2047,6 +2297,9 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       const initialInstitution = localStorage.getItem(votedInstitutionKey) || 'Your institution';
       updateSharePayload(initialInstitution);
 
+      loadRuntimeConfig().finally(() => {
+        renderTurnstile();
+      });
       Promise.all([loadColleges(), loadTally(), loadLeaderboard()]);
       setInterval(() => {
         loadTally();
