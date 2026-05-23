@@ -8,7 +8,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>No To UP College Uniform</title>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <style>
+    <style is:global>
       @import url('https://fonts.googleapis.com/css2?family=Anton&family=Chakra+Petch:wght@600;700&family=Manrope:wght@500;700;800&family=Merriweather:wght@400;700&display=swap');
 
       :root {
@@ -169,16 +169,6 @@ const turnstileSiteKey = '1x00000000000000000000AA';
           counter-bump 520ms cubic-bezier(0.18, 0.9, 0.2, 1);
       }
 
-      .counter .digit {
-        display: inline-block;
-        min-width: 0.58ch;
-        transform-origin: 50% 62%;
-      }
-
-      .counter .digit.flip {
-        animation: digit-flip 420ms cubic-bezier(0.18, 0.9, 0.22, 1);
-      }
-
       .counter-updated {
         margin-top: 0.6rem;
         font-size: 0.9rem;
@@ -287,7 +277,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       .demand-item {
         border: 1px solid oklch(0.73 0.03 42);
         background: oklch(0.97 0.006 72);
-        padding: 1rem 1rem 1.1rem;
+        padding: 1.2rem 1.2rem 1.3rem;
         display: grid;
         gap: 0.6rem;
       }
@@ -302,6 +292,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         font-size: clamp(1rem, 2.6vw, 1.23rem);
         text-transform: uppercase;
         letter-spacing: 0.03em;
+        margin: 0;
       }
 
       .demand-item p {
@@ -876,7 +867,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         margin-top: 0.8rem;
         border: 1px solid oklch(0.36 0.04 330);
         border-radius: 4px;
-        overflow: clip;
+        overflow: hidden;
       }
 
       .lb-list {
@@ -886,12 +877,10 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
       .lb-row {
         display: grid;
-        grid-template-columns: 4rem 1fr 6rem;
+        grid-template-columns: 70px minmax(0, 1fr) 90px;
         align-items: center;
-        gap: 0;
-        padding: 0;
         border-bottom: 1px solid oklch(0.27 0.024 330);
-        transition: background 180ms ease;
+        min-height: 72px;
       }
 
       .lb-row:last-child {
@@ -907,36 +896,33 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       }
 
       .lb-cell {
-        padding: 0.7rem 0.75rem;
-        border-left: 1px solid oklch(0.27 0.024 330);
-        display: grid;
-        align-items: center;
-      }
-
-      .lb-row > :first-child {
-        border-left: 0;
+        padding: 0.85rem;
+        overflow: hidden;
       }
 
       .lb-rank {
+        text-align: center;
         font-weight: 800;
+        white-space: nowrap;
         color: oklch(0.89 0.05 62);
         font-size: 0.95rem;
-        text-align: center;
       }
 
       .lb-info-cell {
-        display: grid;
-        gap: 0.3rem;
         min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
       }
 
       .lb-name {
         font-size: 0.95rem;
         color: var(--ink);
         font-weight: 700;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        line-height: 1.4;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: break-word;
       }
 
       .lb-bar-track {
@@ -955,16 +941,17 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       }
 
       .lb-votes {
-        font-family: 'Chakra Petch', 'Courier New', monospace;
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--ink);
         text-align: center;
+        font-family: 'Chakra Petch', 'Courier New', monospace;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--ink);
+        white-space: nowrap;
       }
 
       .lb-header {
         display: grid;
-        grid-template-columns: 4rem 1fr 6rem;
+        grid-template-columns: 70px minmax(0, 1fr) 90px;
         gap: 0;
         padding: 0;
         border-bottom: 1px solid oklch(0.34 0.03 335);
@@ -972,17 +959,12 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       }
 
       .lb-header-cell {
-        padding: 0.6rem 0.75rem;
+        padding: 0.6rem 0.85rem;
         font-size: 0.76rem;
         text-transform: uppercase;
         letter-spacing: 0.09em;
         color: oklch(0.86 0.02 86);
         font-weight: 700;
-        border-left: 1px solid oklch(0.34 0.03 335);
-      }
-
-      .lb-header > :first-child {
-        border-left: 0;
       }
 
       .hidden {
@@ -1125,6 +1107,17 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         }
       }
 
+      @media (max-width: 640px) {
+        .lb-row,
+        .lb-header {
+          grid-template-columns: 56px minmax(0, 1fr) 72px;
+        }
+
+        .lb-name {
+          font-size: 0.88rem;
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -1142,28 +1135,31 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       <section class="impact">
         <div class="shell impact-grid">
           <div class="stamp" aria-hidden="true">
-            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M38 18L54 32" stroke="oklch(0.72 0.015 85)" stroke-width="2" stroke-linecap="round"/>
-              <path d="M82 18L66 32" stroke="oklch(0.72 0.015 85)" stroke-width="2" stroke-linecap="round"/>
-              <path d="M54 32L60 26L66 32L63 38L57 38Z" stroke="oklch(0.92 0.015 85)" stroke-width="2.2" fill="oklch(0.26 0.025 302)" stroke-linejoin="round"/>
-              <path d="M60 27V37" stroke="oklch(0.72 0.015 85)" stroke-width="1" stroke-linecap="round"/>
-              <path d="M57 38L52 58L60 62L68 58L63 38Z" stroke="oklch(0.92 0.015 85)" stroke-width="2.2" fill="oklch(0.2 0.02 302)" stroke-linejoin="round"/>
-              <path d="M60 40L56 55" stroke="oklch(0.6 0.015 85)" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
-              <path d="M60 40L64 55" stroke="oklch(0.6 0.015 85)" stroke-width="0.8" stroke-linecap="round" opacity="0.4"/>
-              <path d="M52 58L48 88L60 108L72 88L68 58" stroke="oklch(0.92 0.015 85)" stroke-width="2.2" fill="oklch(0.18 0.018 302)" stroke-linejoin="round"/>
-              <path d="M60 62V105" stroke="oklch(0.65 0.015 85)" stroke-width="0.9" stroke-linecap="round" opacity="0.5"/>
-              <path d="M53 62L49 86" stroke="oklch(0.5 0.012 85)" stroke-width="0.7" stroke-linecap="round" opacity="0.35"/>
-              <path d="M67 62L71 86" stroke="oklch(0.5 0.012 85)" stroke-width="0.7" stroke-linecap="round" opacity="0.25"/>
-              <path d="M54 95L60 108L66 95" stroke="oklch(0.7 0.015 85)" stroke-width="0.8" fill="none" opacity="0.4"/>
-              <line x1="16" y1="100" x2="104" y2="20" stroke="#e11d48" stroke-width="10" stroke-linecap="round"/>
-              <line x1="16" y1="100" x2="104" y2="20" stroke="#e11d48" stroke-width="16" stroke-linecap="round" opacity="0.2"/>
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M35 15 L50 25 L65 15 L55 10 L45 10 Z" fill="oklch(0.24 0.02 305)" stroke="oklch(0.85 0.01 90)" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M42 25 L58 25 L54 37 L46 37 Z" fill="oklch(0.3 0.025 305)" stroke="oklch(0.85 0.01 90)" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M46 37 L54 37 L60 85 L50 95 L40 85 Z" fill="oklch(0.2 0.015 305)" stroke="oklch(0.85 0.01 90)" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M50 37 V93" stroke="oklch(0.44 0.015 305)" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+              <path d="M45 45 L50 50" stroke="oklch(0.44 0.015 305)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+              <path d="M55 55 L50 60" stroke="oklch(0.44 0.015 305)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+              <path d="M45 65 L50 70" stroke="oklch(0.44 0.015 305)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+              <line x1="12" y1="88" x2="88" y2="12" stroke="#e11d48" stroke-width="8" stroke-linecap="round"/>
+              <line x1="12" y1="88" x2="88" y2="12" stroke="#e11d48" stroke-width="14" stroke-linecap="round" opacity="0.25"/>
             </svg>
           </div>
 
           <div class="hero-content">
             <div class="stamp stamp--right" aria-hidden="true">
-              <svg viewBox="0 0 122.88 122.88" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#e11d48" fill-rule="evenodd" d="M46.27 37.41a3.32 3.32 0 0 1 1.07.12 4.79 4.79 0 0 1 2.08 1.35 25.41 25.41 0 0 1 3.41 3.85c1.44 1.91 7 8.94 7.75 10.56a2.91 2.91 0 0 1-.41 3.43l-3.28 3.19c-1.3 1.29-3 1.22-4.74-.07-4.2-4.06-8-9.13-11.41-12.75a3.52 3.52 0 0 1-1.14-3.65c.55-2.07 4.58-5.89 6.67-6ZM61.44 0A61.46 61.46 0 1 1 18 18 61.21 61.21 0 0 1 61.44 0ZM98.2 24.68a52 52 0 1 0-45.41 88L47.9 97.63c-1.06-2.48-1.84-4.79-2.8-7.24a49.35 49.35 0 0 0-7-11.35 28.21 28.21 0 0 1-3.39-13.58h0c1.71 1.29 3.59 2.85 5.44 4.3 3.45 2.71 7.1 6 10.71 1.23.68-1 1.38-1.91 2.1-2.8a49.65 49.65 0 0 1 9.26-8.89c6.26-.18 13.12-4.45 18.63-3.72l-2.09-4.93-7 2.64c-5.45 2.05-11.64-5.24-8.9-8.64 9.37-5.37 21.88-15.47 27.94-4.52l5 9.06c6.59 11.74 2.24 16-5.9 27.36a79.1 79.1 0 0 1-10.2 11.76c-1.92 1.79-1.61 1.22-.15 3.57l8.14 14.48A52 52 0 0 0 98.2 24.68ZM34.7 50a3.06 3.06 0 0 1 1.79-.89 3.35 3.35 0 0 1 1.07.12 4.76 4.76 0 0 1 2.07 1.35A105.55 105.55 0 0 1 50.27 61.33c1.79 1.64 2.2 3.35.8 5l-2.56 2.86c-1.3 1.3-2.95 1.23-4.74-.07C35.68 62.31 26.12 58.81 34.7 50ZM72.33 19.39a3.37 3.37 0 0 1 1.09.28c1.83.81 4 4.51 4.86 6.21.59 1.08 2.25 4 3.6 6.5L70.31 37c-1.86-3-3.52-6.07-5.21-8.52a3.69 3.69 0 0 1-.62-3.94c.66-1.5 2.31-2.62 3.66-3.46 1-.58 3.14-1.83 4.19-1.73ZM58.62 27.07a3.42 3.42 0 0 1 1.1.22 4.8 4.8 0 0 1 2 1.59 26.59 26.59 0 0 1 3.28 4.3c.57.9 1.81 2.82 3.1 4.86-4 1.8-9.37 2.77-9.55 7.89-2.36-3.21-4.46-6.65-6.53-9.29a3.7 3.7 0 0 1-.86-3.9c.83-2.25 5.26-5.71 7.5-5.67Z"/>
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M35 15 L50 25 L65 15 L55 10 L45 10 Z" fill="oklch(0.24 0.02 305)" stroke="oklch(0.85 0.01 90)" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M42 25 L58 25 L54 37 L46 37 Z" fill="oklch(0.3 0.025 305)" stroke="oklch(0.85 0.01 90)" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M46 37 L54 37 L60 85 L50 95 L40 85 Z" fill="oklch(0.2 0.015 305)" stroke="oklch(0.85 0.01 90)" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M50 37 V93" stroke="oklch(0.44 0.015 305)" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+                <path d="M45 45 L50 50" stroke="oklch(0.44 0.015 305)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+                <path d="M55 55 L50 60" stroke="oklch(0.44 0.015 305)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+                <path d="M45 65 L50 70" stroke="oklch(0.44 0.015 305)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+                <line x1="12" y1="88" x2="88" y2="12" stroke="#e11d48" stroke-width="8" stroke-linecap="round"/>
+                <line x1="12" y1="88" x2="88" y2="12" stroke="#e11d48" stroke-width="14" stroke-linecap="round" opacity="0.25"/>
               </svg>
             </div>
             <p class="campaign-kicker">UP College Uniform Protest 2026</p>
@@ -1219,7 +1215,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       <section class="manifesto" id="manifesto">
         <div class="shell">
           <p class="section-kicker">The Argument</p>
-          <h2>Why Uniform Is Not A Good Idea</h2>
+          <h2>Why Standardized Uniforms Do Not Belong In Higher Education</h2>
           <p class="manifesto-intro">
             University is not school. A uniform policy ignores that students are adults with
             distinct identities, constrained budgets, and a right to self-expression.
@@ -1251,13 +1247,14 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
             <li class="demand-item">
               <div class="demand-title">
-                <h3>Overhead Cost of the Hostel</h3>
+                <h3>Hostel Operational Strain</h3>
               </div>
               <p>
-                Hostel students manage limited laundry facilities and demanding academic schedules.
-                Mandating daily uniform washing cycles under threat of academic penalties creates
-                unnecessary financial strain and day-to-day stress, detracting from core academic
-                performance.
+                Hostel students manage limited laundry infrastructure, lack adequate drying spaces,
+                and juggle packed academic schedules with personal chores. Requiring immediate daily
+                laundering of a single set of uniforms under the threat of disciplinary penalty or
+                academic exclusion introduces severe logistical strain and unnecessary day-to-day
+                stress, directly detracting from academic focus.
               </p>
             </li>
 
@@ -1626,7 +1623,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
       function buildWhatsAppText(link) {
         return (
-          '*UP College Uniform Protest 2026*\n' +
+          'UP College Uniform Protest 2026\n' +
           'They want to treat university students like school children. It is time to show our numbers.\n\n' +
           'I just cast my vote against the mandatory uniform rule. It takes 10 seconds, requires NO email, and is 100% private.\n' +
           '• Cast your vote here: ' +
@@ -1708,7 +1705,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         if (!rows.length) {
           const empty = document.createElement('div');
           empty.className = 'lb-row';
-          empty.innerHTML = '<span class="lb-cell" style="text-align:center;color:var(--muted)">—</span><span class="lb-cell" style="color:var(--muted)">No votes yet. Your campus could be first.</span><span class="lb-cell" style="text-align:center;color:var(--muted)">0</span>';
+          empty.innerHTML = '<div class="lb-cell" style="text-align:center;color:var(--muted)">—</div><div class="lb-cell" style="color:var(--muted)">No votes yet. Your campus could be first.</div><div class="lb-cell" style="text-align:center;color:var(--muted)">0</div>';
           leaderboardEl.append(empty);
           return;
         }
@@ -1724,12 +1721,12 @@ const turnstileSiteKey = '1x00000000000000000000AA';
           const el = document.createElement('div');
           el.className = 'lb-row' + (rank === 1 ? ' top-row' : '');
           el.innerHTML =
-            '<span class="lb-cell lb-rank">#' + rank + '</span>' +
+            '<div class="lb-cell lb-rank">#' + rank + '</div>' +
             '<div class="lb-cell lb-info-cell">' +
-              '<span class="lb-name">' + label + '</span>' +
+              '<div class="lb-name">' + label + '</div>' +
               '<div class="lb-bar-track"><div class="lb-bar-fill" style="width: ' + pct + '%"></div></div>' +
             '</div>' +
-            '<span class="lb-cell lb-votes">' + votes.toLocaleString('en-IN') + '</span>';
+            '<div class="lb-cell lb-votes">' + votes.toLocaleString('en-IN') + '</div>';
           leaderboardEl.append(el);
         });
       }
@@ -1753,7 +1750,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
           leaderboardEl.innerHTML = '';
           const empty = document.createElement('div');
           empty.className = 'lb-row';
-          empty.innerHTML = '<span class="lb-cell" style="text-align:center;color:var(--muted)">—</span><span class="lb-cell" style="color:var(--muted)">Leaderboard unavailable right now.</span><span class="lb-cell" style="text-align:center;color:var(--muted)">—</span>';
+          empty.innerHTML = '<div class="lb-cell" style="text-align:center;color:var(--muted)">—</div><div class="lb-cell" style="color:var(--muted)">Leaderboard unavailable right now.</div><div class="lb-cell" style="text-align:center;color:var(--muted)">—</div>';
           leaderboardEl.append(empty);
         }
       }
