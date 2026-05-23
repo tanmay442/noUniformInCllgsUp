@@ -1445,6 +1445,78 @@
           scroll-behavior: auto !important;
         }
       }
+
+      .site-footer {
+        border-top: 1px solid var(--line);
+        padding: 2.2rem 0 1.8rem;
+        margin-top: 2rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .site-footer .shell {
+        display: grid;
+        gap: 1rem;
+      }
+      .site-footer a {
+        color: var(--crimson);
+        text-decoration: none;
+      }
+      .site-footer a:hover {
+        text-decoration: underline;
+      }
+      .footer-hashtags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 0.8rem;
+      }
+      .footer-hashtags span {
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        opacity: 0.7;
+      }
+      .footer-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+        align-items: center;
+      }
+      .footer-action-link {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .footer-contact {
+        font-size: 0.68rem;
+        opacity: 0.55;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+      .footer-contact button {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.15s;
+      }
+      .footer-contact button:hover {
+        opacity: 1;
+      }
+      .footer-contact button:disabled {
+        cursor: default;
+        opacity: 1;
+      }
+      .footer-contact .email-reveal {
+        color: var(--crimson);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
     </style>
   </head>
   <body>
@@ -1809,6 +1881,26 @@
       </section>
     </main>
 
+    <footer class="site-footer">
+      <div class="shell">
+        <p>End mandatory college uniforms in Uttar Pradesh. Scholars, not schoolchildren. One anonymous vote per device.</p>
+        <div class="footer-hashtags">
+          <span>#NoToUPCollegeUniform</span>
+          <span>#MyCampusMyChoice</span>
+          <span>#AdultsNotKids</span>
+          <span>#UPStudents</span>
+        </div>
+        <div class="footer-actions">
+          <a class="footer-action-link" href="https://twitter.com/intent/tweet?text=" id="footer-x-link" target="_blank" rel="noreferrer">X</a>
+          <a class="footer-action-link" href="#" id="footer-ig-link">Instagram</a>
+          <span class="footer-contact" id="footer-contact">
+            <button id="contact-reveal-btn">contact</button>
+            <span class="email-reveal hidden" id="contact-email">goeltanmay442@outlook.com</span>
+          </span>
+        </div>
+      </div>
+    </footer>
+
     <script>
       const votedKey = 'up_uniform_voted';
       const tokenKey = 'up_uniform_vote_token';
@@ -1843,6 +1935,9 @@
       const downloadCardEl = document.getElementById('download-card');
       const shareInstagramEl = document.getElementById('share-instagram');
       const shareXEl = document.getElementById('share-x');
+      const footerInstagramEl = document.getElementById('footer-ig-link');
+      const contactRevealBtn = document.getElementById('contact-reveal-btn');
+      const contactEmailEl = document.getElementById('contact-email');
       const xTemplateEl = document.getElementById('x-template');
       const igTemplateEl = document.getElementById('ig-template');
       const leaderboardSearchEl = document.getElementById('leaderboard-search');
@@ -1997,9 +2092,8 @@
 
       function buildXText(link) {
         return (
-          'Higher education is about developing independent intellect, not policing clothes.\n\n' +
-          'Forcing adult scholars into matching school-level uniforms does not create equality—it invites public mockery, burdens hostel students with rigid schedules, and stifles self-expression. We write examinations in lowers and t-shirts because we are focused on learning, not a fashion show.\n\n' +
-          'Read the Open Memorandum and register your anonymous vote.\n' +
+          'University is NOT school. Mandatory uniforms for adult scholars invite public mockery and impose daily laundry penalties on hostel students.\n\n' +
+          'We are scholars, not schoolchildren.\n' +
           link + '\n' +
           '#NoToUPCollegeUniform #MyCampusMyChoice #AdultsNotKids'
         );
@@ -2583,6 +2677,53 @@
         initializeVotedExperience();
       } else {
         syncSubmitState();
+      }
+
+      const footerXLink = document.getElementById('footer-x-link');
+      if (footerXLink) {
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        footerXLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (shareXEl && shareXEl.href && shareXEl.href !== '#') {
+            window.open(shareXEl.href, '_blank', 'noopener,noreferrer');
+          }
+        });
+      }
+
+      if (footerInstagramEl) {
+        footerInstagramEl.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (shareInstagramEl) {
+            shareInstagramEl.click();
+          }
+        });
+      }
+
+      if (contactRevealBtn) {
+        let contactTimer = null;
+        let contactRevealed = false;
+
+        contactRevealBtn.addEventListener('click', () => {
+          if (contactRevealed) return;
+
+          const previous = contactRevealBtn.textContent;
+          contactRevealBtn.disabled = true;
+          let count = 5;
+          contactRevealBtn.textContent = count;
+
+          contactTimer = setInterval(() => {
+            count -= 1;
+            if (count > 0) {
+              contactRevealBtn.textContent = count;
+            } else {
+              clearInterval(contactTimer);
+              contactRevealBtn.textContent = 'contact';
+              contactRevealBtn.disabled = false;
+              contactEmailEl.classList.remove('hidden');
+              contactRevealed = true;
+            }
+          }, 1000);
+        });
       }
     </script>
   </body>
