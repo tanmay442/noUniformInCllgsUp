@@ -774,6 +774,22 @@
         font-style: italic;
       }
 
+      .card-cta {
+        margin-top: auto;
+        font-size: clamp(0.45rem, 1.4vw, 0.7rem);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: oklch(0.78 0.02 80);
+        font-weight: 700;
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-cta-link {
+        color: var(--crimson);
+        letter-spacing: 0.05em;
+      }
+
       .card-bg-tie {
         position: absolute;
         width: 80px;
@@ -1704,6 +1720,7 @@
                     #AdultsNotKids
                   </p>
                   <p class="card-message">Higher education is about developing independent intellect, not policing what students wear.</p>
+                  <p class="card-cta">Cast your vote: <span class="card-cta-link" id="card-link"></span></p>
                 </div>
               </div>
 
@@ -1822,6 +1839,7 @@
       const cardTitleEl = document.getElementById('card-title');
       const cardSubtitleEl = document.getElementById('card-subtitle');
       const cardCollegeEl = document.getElementById('card-college');
+      const cardLinkEl = document.getElementById('card-link');
       const downloadCardEl = document.getElementById('download-card');
       const shareInstagramEl = document.getElementById('share-instagram');
       const shareXEl = document.getElementById('share-x');
@@ -2004,11 +2022,15 @@
 
       function updateSharePayload(institutionLabel) {
         const link = location.href;
+        const displayLink = location.host || link;
         const xText = buildXText(link);
         const igCaption = buildInstagramCaption(link);
 
         cardSubtitleEl.textContent = cardNameEl.value.trim() || 'Your Name';
         cardCollegeEl.textContent = institutionLabel;
+        if (cardLinkEl) {
+          cardLinkEl.textContent = displayLink;
+        }
         xTemplateEl.textContent = xText;
         igTemplateEl.textContent = igCaption;
         shareXEl.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(xText);
@@ -2413,6 +2435,14 @@
         });
       }
 
+      async function renderCardPreviewFile() {
+        const dataUrl = await renderCardPreviewToPng();
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        const file = new File([blob], 'up-protest-card.png', { type: blob.type || 'image/png' });
+        return { dataUrl, file };
+      }
+
       downloadCardEl.addEventListener('click', async () => {
         const previousLabel = downloadCardEl.textContent;
         downloadCardEl.disabled = true;
@@ -2432,17 +2462,83 @@
         }
       });
 
-      shareInstagramEl.addEventListener('click', function(event) {
+      shareInstagramEl.addEventListener('click', async (event) => {
         event.preventDefault();
-        downloadCardEl.click();
-        var caption = igTemplateEl.textContent || '';
-        if (caption) {
-          navigator.clipboard.writeText(caption).then(function() {
-            var prev = shareInstagramEl.textContent;
-            shareInstagramEl.textContent = 'Downloaded + Copied';
-            setTimeout(function() { shareInstagramEl.textContent = prev; }, 2000);
-          }).catch(function() {});
+        if (shareInstagramEl.dataset.busy === 'true') return;
+
+        const previousLabel = shareInstagramEl.textContent;
+        shareInstagramEl.dataset.busy = 'true';
+        shareInstagramEl.textContent = 'Preparing...';
+
+        const caption = igTemplateEl.textContent || '';
+        let dataUrl;
+        let file;
+
+        try {
+          const result = await renderCardPreviewFile();
+          dataUrl = result.dataUrl;
+          file = result.file;
+        } catch (error) {
+          console.error('Instagram share render failed', error);
         }
+
+        try {
+          if (file && navigator.share) {
+            const shareData = {
+              files: [file],
+              text: caption,
+              title: 'No Uniforms in Colleges',
+            };
+            const canShareFiles = typeof navigator.canShare !== 'function' || navigator.canShare(shareData);
+            if (canShareFiles) {
+              await navigator.share(shareData);
+              shareInstagramEl.textContent = 'Share opened';
+              setTimeout(() => {
+                shareInstagramEl.textContent = previousLabel;
+                shareInstagramEl.dataset.busy = 'false';
+              }, 2000);
+              return;
+            }
+          }
+        } catch (error) {
+          if (error && error.name === 'AbortError') {
+            shareInstagramEl.textContent = previousLabel;
+            shareInstagramEl.dataset.busy = 'false';
+            return;
+          }
+          console.warn('Instagram share sheet failed', error);
+        }
+
+        try {
+          if (!dataUrl) {
+            dataUrl = await renderCardPreviewToPng();
+          }
+          const link = document.createElement('a');
+          link.download = 'up-protest-card.png';
+          link.href = dataUrl;
+          link.click();
+        } catch (error) {
+          console.error('Card export failed', error);
+        }
+
+        if (caption) {
+          try {
+            await navigator.clipboard.writeText(caption);
+          } catch {
+            const temp = document.createElement('textarea');
+            temp.value = caption;
+            document.body.append(temp);
+            temp.select();
+            document.execCommand('copy');
+            temp.remove();
+          }
+        }
+
+        shareInstagramEl.textContent = 'Downloaded + Copied';
+        setTimeout(() => {
+          shareInstagramEl.textContent = previousLabel;
+          shareInstagramEl.dataset.busy = 'false';
+        }, 2200);
       });
 
       document.querySelectorAll('[data-copy-target]').forEach((button) => {
