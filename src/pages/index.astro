@@ -90,6 +90,14 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         display: block;
       }
 
+      .hero-content {
+        position: relative;
+      }
+
+      .stamp--right {
+        display: none;
+      }
+
       .campaign-kicker {
         display: inline-flex;
         align-items: center;
@@ -177,6 +185,45 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         color: var(--muted);
       }
 
+      .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: clamp(1.2rem, 3vw, 2rem);
+        padding: 0.9rem 1.6rem;
+        background: var(--crimson);
+        color: oklch(0.97 0.01 80);
+        font-family: 'Manrope', system-ui, sans-serif;
+        font-weight: 900;
+        font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+        border-bottom: 4px solid var(--crimson-deep);
+        transition:
+          transform 220ms cubic-bezier(0.18, 0.9, 0.22, 1),
+          box-shadow 220ms ease,
+          filter 220ms ease;
+        width: fit-content;
+      }
+
+      .hero-cta:hover {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 14px 28px oklch(0.44 0.17 16 / 0.45);
+        filter: drop-shadow(0 0 14px oklch(0.56 0.2 16 / 0.55));
+      }
+
+      .hero-cta:active {
+        transform: translateY(1px);
+        border-bottom-width: 1px;
+      }
+
+      .hero-cta:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+
       .torn-divider {
         line-height: 0;
       }
@@ -247,13 +294,8 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
       .demand-title {
         display: grid;
-        grid-template-columns: auto 1fr;
         gap: 0.7rem;
         align-items: baseline;
-      }
-
-      .demand-emoji {
-        font-size: 1.3rem;
       }
 
       .demand-item h3 {
@@ -285,6 +327,15 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         color: var(--muted);
         font-family: 'Merriweather', Georgia, serif;
         line-height: 1.7;
+      }
+
+      .vote-illu {
+        margin-top: 1.2rem;
+        width: clamp(100px, 18vw, 160px);
+        height: auto;
+        color: var(--crimson);
+        opacity: 0.7;
+        filter: drop-shadow(0 0 10px oklch(0.58 0.22 16 / 0.35));
       }
 
       .hashtag-list {
@@ -638,64 +689,300 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         border-color: oklch(0.44 0.08 16 / 0.7);
       }
 
+      /* Open Letter Component */
+      .open-letter-zone {
+        padding: clamp(2rem, 5vw, 4rem) 0;
+      }
+
+      .open-letter {
+        border: 1px solid oklch(0.3 0.02 345);
+        background: oklch(0.08 0.008 305 / 0.8);
+        padding: clamp(1.5rem, 4vw, 3rem);
+        border-radius: 6px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .open-letter::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--crimson), oklch(0.65 0.18 16), var(--crimson));
+      }
+
+      .letter-header {
+        font-family: 'Merriweather', Georgia, serif;
+        border-bottom: 1px solid oklch(0.3 0.02 345);
+        padding-bottom: 1.4rem;
+        margin-bottom: 1.6rem;
+      }
+
+      .letter-header .letter-type {
+        font-family: 'Anton', Impact, sans-serif;
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--crimson);
+      }
+
+      .letter-meta {
+        margin-top: 1rem;
+        display: grid;
+        gap: 0.35rem;
+        font-size: 0.92rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .letter-meta strong {
+        color: oklch(0.88 0.015 80);
+      }
+
+      .letter-body {
+        font-family: 'Merriweather', Georgia, serif;
+        line-height: 1.85;
+        color: oklch(0.82 0.012 85);
+        font-size: clamp(0.93rem, 1.4vw, 1.05rem);
+      }
+
+      .letter-body p {
+        text-indent: 2em;
+        margin-bottom: 1rem;
+      }
+
+      .letter-body p:first-child {
+        text-indent: 0;
+      }
+
+      /* System Integrity Section */
+      .integrity-zone {
+        padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+      }
+
+      .integrity-card {
+        border: 1px solid oklch(0.3 0.04 345);
+        background: linear-gradient(165deg, oklch(0.15 0.015 305), oklch(0.11 0.01 305));
+        padding: clamp(1.2rem, 3vw, 2rem);
+      }
+
+      .integrity-card h3 {
+        font-family: 'Anton', Impact, sans-serif;
+        font-size: clamp(1.2rem, 3vw, 1.7rem);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+
+      .integrity-card > p {
+        margin-top: 0.7rem;
+        font-family: 'Merriweather', Georgia, serif;
+        font-size: 0.92rem;
+        color: var(--muted);
+        line-height: 1.7;
+        max-width: 72ch;
+      }
+
+      .integrity-grid {
+        margin-top: 1.2rem;
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      .integrity-item {
+        border: 1px solid oklch(0.28 0.03 340);
+        background: oklch(0.13 0.012 310);
+        padding: 0.9rem 1rem;
+      }
+
+      .integrity-item h4 {
+        font-size: 0.88rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--crimson);
+        font-weight: 800;
+        margin-bottom: 0.35rem;
+      }
+
+      .integrity-item p {
+        font-size: 0.9rem;
+        color: oklch(0.78 0.015 85);
+        line-height: 1.65;
+        margin: 0;
+      }
+
+      /* Leaderboard */
       .leaderboard-zone {
         padding: clamp(2.2rem, 7vw, 5rem) 0 clamp(2.8rem, 7vw, 5.6rem);
       }
 
-      .leaderboard-zone p {
+      .leaderboard-zone > .shell > p {
         margin-top: 0.8rem;
         max-width: 64ch;
         color: var(--muted);
       }
 
-      .leaderboard-wrap {
-        margin-top: 1.1rem;
-        border: 1px solid var(--line);
-        overflow: auto;
+      .leaderboard-search-wrap {
+        margin-top: 1.2rem;
+        position: relative;
       }
 
-      table {
+      #leaderboard-search {
         width: 100%;
-        border-collapse: collapse;
-        min-width: 520px;
+        border: 1px solid oklch(0.36 0.04 330);
+        background: oklch(0.18 0.016 305);
+        color: var(--ink);
+        padding: 0.88rem 0.95rem 0.88rem 2.8rem;
+        font: inherit;
+        font-size: 1rem;
       }
 
-      th,
-      td {
-        text-align: left;
-        padding: 0.8rem 0.78rem;
+      #leaderboard-search::placeholder {
+        color: oklch(0.58 0.02 312);
       }
 
-      th {
+      #leaderboard-search:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+
+      .leaderboard-search-icon {
+        position: absolute;
+        left: 0.85rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.1rem;
+        height: 1.1rem;
+        color: oklch(0.55 0.02 310);
+        pointer-events: none;
+      }
+
+      .leaderboard-no-result {
+        padding: 1rem;
+        color: var(--muted);
+        font-size: 0.92rem;
+        text-align: center;
+      }
+
+      .leaderboard-no-result a {
+        color: var(--crimson);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .leaderboard-wrap {
+        margin-top: 0.8rem;
+        border: 1px solid oklch(0.36 0.04 330);
+        border-radius: 4px;
+        overflow: clip;
+      }
+
+      .lb-list {
+        display: grid;
+        gap: 0;
+      }
+
+      .lb-row {
+        display: grid;
+        grid-template-columns: 4rem 1fr 6rem;
+        align-items: center;
+        gap: 0;
+        padding: 0;
+        border-bottom: 1px solid oklch(0.27 0.024 330);
+        transition: background 180ms ease;
+      }
+
+      .lb-row:last-child {
+        border-bottom: 0;
+      }
+
+      .lb-row:hover {
+        background: oklch(0.2 0.025 340 / 0.4);
+      }
+
+      .lb-row.top-row {
+        background: oklch(0.24 0.06 16 / 0.27);
+      }
+
+      .lb-cell {
+        padding: 0.7rem 0.75rem;
+        border-left: 1px solid oklch(0.27 0.024 330);
+        display: grid;
+        align-items: center;
+      }
+
+      .lb-row > :first-child {
+        border-left: 0;
+      }
+
+      .lb-rank {
+        font-weight: 800;
+        color: oklch(0.89 0.05 62);
+        font-size: 0.95rem;
+        text-align: center;
+      }
+
+      .lb-info-cell {
+        display: grid;
+        gap: 0.3rem;
+        min-width: 0;
+      }
+
+      .lb-name {
+        font-size: 0.95rem;
+        color: var(--ink);
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .lb-bar-track {
+        height: 6px;
+        border-radius: 3px;
+        background: oklch(0.58 0.215 16 / 0.15);
+        overflow: hidden;
+      }
+
+      .lb-bar-fill {
+        height: 100%;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--crimson), oklch(0.65 0.2 16));
+        box-shadow: 0 0 8px oklch(0.58 0.215 16 / 0.5);
+        transition: width 600ms cubic-bezier(0.22, 0.9, 0.36, 1);
+      }
+
+      .lb-votes {
+        font-family: 'Chakra Petch', 'Courier New', monospace;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--ink);
+        text-align: center;
+      }
+
+      .lb-header {
+        display: grid;
+        grid-template-columns: 4rem 1fr 6rem;
+        gap: 0;
+        padding: 0;
+        border-bottom: 1px solid oklch(0.34 0.03 335);
+        background: oklch(0.17 0.014 308);
+      }
+
+      .lb-header-cell {
+        padding: 0.6rem 0.75rem;
         font-size: 0.76rem;
         text-transform: uppercase;
         letter-spacing: 0.09em;
         color: oklch(0.86 0.02 86);
-        border-bottom: 1px solid oklch(0.34 0.03 335);
-      }
-
-      td {
-        border-bottom: 1px solid oklch(0.27 0.024 330);
-      }
-
-      tr:last-child td {
-        border-bottom: 0;
-      }
-
-      .rank-cell {
-        width: 5rem;
-        font-weight: 800;
-        color: oklch(0.89 0.05 62);
-      }
-
-      .votes-cell {
-        font-family: 'Chakra Petch', 'Courier New', monospace;
-        font-size: 1rem;
         font-weight: 700;
+        border-left: 1px solid oklch(0.34 0.03 335);
       }
 
-      .top-row {
-        background: oklch(0.24 0.06 16 / 0.27);
+      .lb-header > :first-child {
+        border-left: 0;
       }
 
       .hidden {
@@ -801,8 +1088,22 @@ const turnstileSiteKey = '1x00000000000000000000AA';
           grid-template-columns: auto 1fr;
         }
 
+        .stamp--right {
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: clamp(80px, 13vw, 110px);
+          justify-self: end;
+          animation: stamp-in 620ms cubic-bezier(0.2, 0.9, 0.2, 1.05) 90ms both;
+        }
+
+        .hero-content {
+          padding-right: calc(clamp(80px, 13vw, 110px) + 1rem);
+        }
+
         .demand-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .action-layout {
@@ -817,6 +1118,10 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
         .template-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .integrity-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
         }
       }
 
@@ -838,40 +1143,65 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         <div class="shell impact-grid">
           <div class="stamp" aria-hidden="true">
             <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M62.5 12L87 38L74 46V82L61 108L48 82V46L35 38L59.5 12C60.5 11 61.5 11 62.5 12Z"
-                stroke="oklch(0.92 0.015 85)"
-                stroke-width="4"
-                fill="oklch(0.2 0.02 302)"
-              />
-              <path
-                d="M20 98L104 24"
-                stroke="oklch(0.58 0.215 16)"
-                stroke-width="12"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M16 90L100 16"
-                stroke="oklch(0.66 0.13 24 / 0.4)"
-                stroke-width="5"
-                stroke-linecap="round"
-              />
+              <path d="M38 18L54 32" stroke="oklch(0.72 0.015 85)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M82 18L66 32" stroke="oklch(0.72 0.015 85)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M54 32L60 26L66 32L63 38L57 38Z" stroke="oklch(0.92 0.015 85)" stroke-width="2.2" fill="oklch(0.26 0.025 302)" stroke-linejoin="round"/>
+              <path d="M60 27V37" stroke="oklch(0.72 0.015 85)" stroke-width="1" stroke-linecap="round"/>
+              <path d="M57 38L52 58L60 62L68 58L63 38Z" stroke="oklch(0.92 0.015 85)" stroke-width="2.2" fill="oklch(0.2 0.02 302)" stroke-linejoin="round"/>
+              <path d="M60 40L56 55" stroke="oklch(0.6 0.015 85)" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
+              <path d="M60 40L64 55" stroke="oklch(0.6 0.015 85)" stroke-width="0.8" stroke-linecap="round" opacity="0.4"/>
+              <path d="M52 58L48 88L60 108L72 88L68 58" stroke="oklch(0.92 0.015 85)" stroke-width="2.2" fill="oklch(0.18 0.018 302)" stroke-linejoin="round"/>
+              <path d="M60 62V105" stroke="oklch(0.65 0.015 85)" stroke-width="0.9" stroke-linecap="round" opacity="0.5"/>
+              <path d="M53 62L49 86" stroke="oklch(0.5 0.012 85)" stroke-width="0.7" stroke-linecap="round" opacity="0.35"/>
+              <path d="M67 62L71 86" stroke="oklch(0.5 0.012 85)" stroke-width="0.7" stroke-linecap="round" opacity="0.25"/>
+              <path d="M54 95L60 108L66 95" stroke="oklch(0.7 0.015 85)" stroke-width="0.8" fill="none" opacity="0.4"/>
+              <line x1="16" y1="100" x2="104" y2="20" stroke="#e11d48" stroke-width="10" stroke-linecap="round"/>
+              <line x1="16" y1="100" x2="104" y2="20" stroke="#e11d48" stroke-width="16" stroke-linecap="round" opacity="0.2"/>
             </svg>
           </div>
 
-          <div>
+          <div class="hero-content">
+            <div class="stamp stamp--right" aria-hidden="true">
+              <svg viewBox="0 0 122.88 122.88" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#e11d48" fill-rule="evenodd" d="M46.27 37.41a3.32 3.32 0 0 1 1.07.12 4.79 4.79 0 0 1 2.08 1.35 25.41 25.41 0 0 1 3.41 3.85c1.44 1.91 7 8.94 7.75 10.56a2.91 2.91 0 0 1-.41 3.43l-3.28 3.19c-1.3 1.29-3 1.22-4.74-.07-4.2-4.06-8-9.13-11.41-12.75a3.52 3.52 0 0 1-1.14-3.65c.55-2.07 4.58-5.89 6.67-6ZM61.44 0A61.46 61.46 0 1 1 18 18 61.21 61.21 0 0 1 61.44 0ZM98.2 24.68a52 52 0 1 0-45.41 88L47.9 97.63c-1.06-2.48-1.84-4.79-2.8-7.24a49.35 49.35 0 0 0-7-11.35 28.21 28.21 0 0 1-3.39-13.58h0c1.71 1.29 3.59 2.85 5.44 4.3 3.45 2.71 7.1 6 10.71 1.23.68-1 1.38-1.91 2.1-2.8a49.65 49.65 0 0 1 9.26-8.89c6.26-.18 13.12-4.45 18.63-3.72l-2.09-4.93-7 2.64c-5.45 2.05-11.64-5.24-8.9-8.64 9.37-5.37 21.88-15.47 27.94-4.52l5 9.06c6.59 11.74 2.24 16-5.9 27.36a79.1 79.1 0 0 1-10.2 11.76c-1.92 1.79-1.61 1.22-.15 3.57l8.14 14.48A52 52 0 0 0 98.2 24.68ZM34.7 50a3.06 3.06 0 0 1 1.79-.89 3.35 3.35 0 0 1 1.07.12 4.76 4.76 0 0 1 2.07 1.35A105.55 105.55 0 0 1 50.27 61.33c1.79 1.64 2.2 3.35.8 5l-2.56 2.86c-1.3 1.3-2.95 1.23-4.74-.07C35.68 62.31 26.12 58.81 34.7 50ZM72.33 19.39a3.37 3.37 0 0 1 1.09.28c1.83.81 4 4.51 4.86 6.21.59 1.08 2.25 4 3.6 6.5L70.31 37c-1.86-3-3.52-6.07-5.21-8.52a3.69 3.69 0 0 1-.62-3.94c.66-1.5 2.31-2.62 3.66-3.46 1-.58 3.14-1.83 4.19-1.73ZM58.62 27.07a3.42 3.42 0 0 1 1.1.22 4.8 4.8 0 0 1 2 1.59 26.59 26.59 0 0 1 3.28 4.3c.57.9 1.81 2.82 3.1 4.86-4 1.8-9.37 2.77-9.55 7.89-2.36-3.21-4.46-6.65-6.53-9.29a3.7 3.7 0 0 1-.86-3.9c.83-2.25 5.26-5.71 7.5-5.67Z"/>
+              </svg>
+            </div>
             <p class="campaign-kicker">UP College Uniform Protest 2026</p>
             <h1 class="headline">Scholars. Not Schoolchildren.</h1>
             <p class="hero-subhead">
-              Higher education demands higher freedoms. We, the adult students of Uttar Pradesh,
-              unitedly reject the regression of mandatory college uniforms.
+              Uttar Pradesh's university students are adults, voters, and future professionals.
+              A uniform mandate doesn't build discipline — it erases identity, burdens hostel
+              students, and distracts from real academic priorities. We are saying no.
             </p>
 
             <div class="counter-block">
               <p class="counter-label">Current Verified Protests Across UP:</p>
               <p class="counter" id="tally" aria-live="polite">[ 0 ]</p>
               <p class="counter-updated" id="updated">Live count warming up</p>
+            </div>
+
+            <a href="#vote-zone" class="hero-cta">Cast Your Vote Now</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="open-letter-zone" id="open-letter">
+        <div class="shell">
+          <div class="open-letter">
+            <div class="letter-header">
+              <p class="letter-type">An Open Memorandum</p>
+              <div class="letter-meta">
+                <p><strong>Date:</strong> May 2026</p>
+                <p><strong>To:</strong> The Honorable Governor of Uttar Pradesh / Chancellor of State Universities</p>
+                <p><strong>From:</strong> The United Student Body of Uttar Pradesh Colleges</p>
+                <p><strong>Subject:</strong> Appeal Against the Mandating of Standardized Uniform Dress Codes</p>
+              </div>
+            </div>
+            <div class="letter-body">
+              <p>Respected Governor,</p>
+              <p>We write to you as adult citizens, voters, and scholars of this state. The recent directive mandating standardized uniforms across all state universities and colleges fundamentally misunderstands what higher education is meant to be.</p>
+              <p>A university is a sanctuary for critical inquiry, diverse perspectives, and professional growth — not a parade ground. By compelling adult students to adhere to school-level dress codes, the state diminishes our personal agency and signals that conformity matters more than competence. This policy also imposes real economic and logistical hardship on hostel residents, who now face daily laundry cycles under threat of academic penalty.</p>
+              <p>We urge you to reconsider. Invest in laboratories, libraries, and placements — not in policing what adult scholars wear.</p>
             </div>
           </div>
         </div>
@@ -888,17 +1218,16 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
       <section class="manifesto" id="manifesto">
         <div class="shell">
-          <p class="section-kicker">The Manifesto</p>
-          <h2>Three Formal Demands</h2>
+          <p class="section-kicker">The Argument</p>
+          <h2>Why Uniform Is Not A Good Idea</h2>
           <p class="manifesto-intro">
-            Students are adults, voters, and future professionals. Policy must reflect dignity,
-            economic reality, and the purpose of a university.
+            University is not school. A uniform policy ignores that students are adults with
+            distinct identities, constrained budgets, and a right to self-expression.
           </p>
 
           <ol class="demand-grid">
             <li class="demand-item">
               <div class="demand-title">
-                <span class="demand-emoji" aria-hidden="true">🏛️</span>
                 <h3>Recognition of Autonomy</h3>
               </div>
               <p>
@@ -909,19 +1238,31 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
             <li class="demand-item">
               <div class="demand-title">
-                <span class="demand-emoji" aria-hidden="true">💸</span>
-                <h3>Relief from Financial Burden</h3>
+                <h3>Expression &amp; Diversity</h3>
               </div>
               <p>
-                Mandatory uniforms act as a hidden tax on students, disproportionately affecting
-                those from economically weaker sections who already struggle with tuition and hostel
-                fees.
+                Higher education thrives on personal and intellectual diversity. A standardized
+                uniform dress code sanitizes individual identity and suppresses creative
+                self-expression, reducing vibrant academic institutions to rigid assembly lines.
+                Students from diverse cultural and economic backgrounds express their identity
+                through attire — a uniform erases that richness.
               </p>
             </li>
 
             <li class="demand-item">
               <div class="demand-title">
-                <span class="demand-emoji" aria-hidden="true">📚</span>
+                <h3>Overhead Cost of the Hostel</h3>
+              </div>
+              <p>
+                Hostel students manage limited laundry facilities and demanding academic schedules.
+                Mandating daily uniform washing cycles under threat of academic penalties creates
+                unnecessary financial strain and day-to-day stress, detracting from core academic
+                performance.
+              </p>
+            </li>
+
+            <li class="demand-item">
+              <div class="demand-title">
                 <h3>Focus on Excellence, Not Apparel</h3>
               </div>
               <p>
@@ -947,10 +1288,13 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         <div class="shell action-layout">
           <div class="action-copy">
             <p class="section-kicker">Register your dissent</p>
-            <h2>One Anonymous Vote, One Public Signal</h2>
+            <h2>One Vote, One Public Signal</h2>
+            <svg class="vote-illu" viewBox="0 0 122.88 82.13" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill="#e11d48" fill-rule="evenodd" d="M21.6 26.29c5.89 0 10.67 4.77 10.67 10.67 0 5.89-4.77 10.67-10.67 10.67-5.89 0-10.67-4.77-10.67-10.67 0-5.9 4.78-10.67 10.67-10.67zm14.57-1.7c-.93.23-1.88-.35-2.1-1.28-.23-.93.35-1.88 1.28-2.1l24.91-6.08c.93-.23 1.88.35 2.1 1.28.23.93-.35 1.88-1.28 2.1L36.17 24.59zm50.25 2.82c.93.23 1.51 1.17 1.28 2.1-.23.93-1.17 1.51-2.1 1.28l-9.67-2.36c-.93-.23-1.51-1.17-1.28-2.1.23-.93 1.17-1.51 2.1-1.28l9.67 2.36zm1.01-8.66c.94.22 1.52 1.16 1.3 2.09-.22.94-1.16 1.52-2.09 1.3l-6.05-1.42c-.94-.22-1.52-1.16-1.3-2.09.22-.94 1.16-1.52 2.09-1.3l6.05 1.42zM35.13 15.95c-.94.22-1.88-.37-2.09-1.3-.22-.94.37-1.88 1.3-2.09l17.54-4.11c.94-.22 1.88.37 2.09 1.3.22.94-.37 1.88-1.3 2.09L35.13 15.95zm58.93-.14l-21.41-5.22 2.14 8.62c.36 1.45.09 2.9-.63 4.09-.71 1.17-1.88 2.07-3.31 2.43l-.19.05c-5.42.87-10 1.74-13.91 2.53l-.02-.07-7.88 1.92 2.21 8.95-9.21 10.55-9.71.4c-1.55-.47-3.26-.7-5.16-.7-4.83 0-10.13-.78-14.63 1v-.12c-1.05.46-2.07 1.1-3.06 1.87l-.03.03c-.91.72-1.79 1.58-2.6 2.54l-.27.33-.13.16-.01.02c-.1.11-.19.22-.27.33l-.01.01c-.04.05-.07.1-.11.15l-.02.02v.01c-.04.05-.07.1-.11.15l-.03.05-.1.14-.01.02c-.04.05-.08.11-.12.16l-.03.04-.09.12-.03.04c-.04.05-.07.1-.1.15l-.01.01-.02.03c-.03.04-.06.09-.09.13l-.04.06c-.04.05-.07.11-.11.17l-.02.04-.09.14-.02.03c-.03.06-.07.11-.1.17l-.03.05-.07.12-.04.07c-.03.05-.06.11-.1.16l-.02.03-.08.14-.03.06c-.03.06-.06.11-.09.17v.01c-.03.06-.07.12-.1.18l-.02.04-.08.15-.03.05-.11.17-.03.07-.07.14-.02.04c-.03.06-.06.12-.09.18l-.03.05-.07.14-.02.05c-.03.06-.06.13-.09.19-1.8 3.8-2.79 10-3.22 14.29-.23 3.29-.26 3.99-.25 5.16.01.09.03.18.05.27v.01c.02.08.04.17.06.25v.01c.02.08.04.16.06.23l.01.02c.02.07.04.15.07.22l.01.02c.02.07.05.13.07.2l.01.03c.02.06.05.12.08.18l.01.02c.03.06.05.11.08.17 1.7 3.34 6.44 2.43 8.05-.28l.01-.02c.02-.03.04-.06.05-.1 .02-.03.03-.06.04-.09 .01-.02.02-.05.03-.07 .02-.04.04-.08.05-.11l.02-.05c.02-.05.04-.09.06-.14l.01-.03c.02-.05.04-.1.05-.16v-.01c.02-.06.04-.12.05-.18v-.01c.02-.06.03-.12.04-.18 .01-.06.02-.13.03-.19l.91-6.88c.14-1.8.26-3.01.99-4.72.34-.8.75-1.5 1.24-2.06l.07 3.19 .35 15.94h20.16l.05-3.15V60.31l11.5-.46c1.49-.04 2.81-.71 3.72-1.75l11.22-12.85c1.74-1.99 1.67-4.96-.09-6.86l-2.36-9.54c.12.11.27.2.44.24l31.63 7.71c.51.13 1.04-.19 1.16-.71l4.74-19.13c.13-.51-.19-1.04-.71-1.16zm-66.48-6.66l36.9-9.13c.51-.13 1.04.19 1.16.71l4.85 19.53c.13.51-.19 1.04-.71 1.16l-36.9 9.13c-.51.13-1.04-.19-1.16-.71l-4.85-19.53c-.13-.51.19-1.04.71-1.16zm49.53 27.16l-7.88-1.92-2.28 11.13c-1.64 1.87-1.72 4.71-.07 6.68l10.6 12.64c1.18 1.45 3.11 2.21 5.07 1.8l7.94-2.22.03 17.72h20.16l.35-12.45 .07-3.19c.48.56.89 1.26 1.24 2.06.72 1.71.84 2.92.99 4.72l.52 3.76c.01.06.02.13.03.19 .01.06.02.12.04.18v.01c.01.06.03.12.05.18v.01c.01.06.03.11.05.16l.01.03c.02.05.04.09.06.14l.02.05c.01.03.03.07.05.11 .01.02.02.05.03.07 .01.03.02.06.04.09 .01.04.03.07.05.1l.01.02c1.61 2.71 6.35 3.62 8.05.28l.02-.04c.03-.06.06-.12.08-.18l.01-.03c.02-.07.05-.13.07-.2l.01-.02c.03-.07.05-.15.07-.22l.01-.02c.02-.07.04-.15.06-.23v-.01c.02-.08.04-.17.06-.25v-.01c.02-.09.04-.18.05-.27 .02-4.02-1.26-10.08-2.9-13.55l-.09-.19-.02-.05-.07-.14-.03-.05c-.03-.06-.06-.12-.09-.18l-.02-.04-.07-.14-.03-.07c-.04-.06-.07-.12-.11-.17l-.02-.04-.08-.15-.02-.04c-.03-.06-.07-.12-.1-.18-.03-.06-.06-.11-.09-.17l-.03-.06-.08-.14-.02-.03c-.04-.05-.07-.11-.1-.16l-.04-.07-.07-.12-.03-.05c-.03-.06-.07-.11-.1-.17l-.02-.03-.09-.14-.02-.04c-.04-.06-.07-.12-.11-.17-.04-.05-.07-.11-.11-.16l-.04-.06c-.03-.04-.06-.09-.09-.13l-.02-.03c-.03-.05-.06-.1-.1-.15l-.03-.04-.09-.12-.03-.04c-.04-.05-.08-.11-.12-.16l-.01-.02-.1-.14-.03-.05c-.04-.05-.07-.1-.11-.15-.04-.05-.07-.1-.11-.15l-.02-.02c-.04-.05-.07-.1-.11-.15l-.01-.01c-.08-.11-.17-.22-.27-.33l-.01-.02c-.05-.06-.09-.11-.13-.16-.09-.11-.18-.22-.27-.33-.81-.96-1.69-1.82-2.6-2.54l-.03-.03c-.99-.77-2.01-1.41-3.06-1.87v.12c-4.5-1.79-9.8-1.01-14.63-1.01-2.05 0-3.87.27-5.51.82l-.06.01-7.37 2.1-8.31-9.91-2.21-8.96zm24.56-6.39c-5.88 0-10.67 4.78-10.67 10.68s4.78 10.67 10.67 10.67c5.89 0 10.67-4.77 10.67-10.67s-4.78-10.68-10.67-10.68z"/>
+            </svg>
             <p>
-              Select your institution, complete silent human verification, and cast your vote.
-              Authorities can dismiss individuals. They cannot dismiss statewide numbers.
+              One vote per device. No email, no phone, no tracking. Just a clear public signal
+              that adult students reject this regressive policy.
             </p>
             <ul class="hashtag-list" aria-label="Official hashtags">
               <li>#NoToUPCollegeUniform</li>
@@ -992,12 +1336,12 @@ const turnstileSiteKey = '1x00000000000000000000AA';
                     data-error-callback="onTurnstileError"
                   ></div>
                 </div>
-                <p class="field-hint">No email. No phone number. One anonymous vote per device.</p>
+                <p class="field-hint">No email. No phone number. One verified vote per device.</p>
               </div>
 
               <input id="website" class="honey" tabindex="-1" autocomplete="off" />
 
-              <button id="submit-btn" type="submit" disabled>Cast My Anonymous Vote</button>
+              <button id="submit-btn" type="submit" disabled>Cast My Vote</button>
               <p class="vote-message" id="vote-message" aria-live="polite"></p>
             </form>
 
@@ -1054,26 +1398,55 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         </div>
       </section>
 
+      <section class="integrity-zone">
+        <div class="shell">
+          <div class="integrity-card">
+            <h3>System Integrity &amp; Verification</h3>
+            <p>To guarantee a credible and unmanipulated petition, this system implements rigorous, non-intrusive validation protocols:</p>
+            <div class="integrity-grid">
+              <div class="integrity-item">
+                <h4>Cryptographic Verification</h4>
+                <p>Powered by Cloudflare Turnstile to completely block automated scripts and bot-generated signatures.</p>
+              </div>
+              <div class="integrity-item">
+                <h4>Device Lockout</h4>
+                <p>Uses cryptographically signed browser cookies and local tokens to prevent multi-voting from a single device, eliminating the need to collect tracking data.</p>
+              </div>
+              <div class="integrity-item">
+                <h4>Immutable Logs</h4>
+                <p>Individual data records are stored in a partitioned, append-only system designed to resist fake data injection and manual database manipulation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="leaderboard-zone" id="vanguard">
         <div class="shell">
           <p class="section-kicker">Live momentum</p>
           <h2>Vanguard Institutions</h2>
           <p>
-            Rival colleges are watching this table in real time. Share harder, move your campus up.
+            Every vote is a public signal. The top 5 institutions are shown below —
+            search yours to see where it stands.
           </p>
 
-          <div class="leaderboard-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Rank</th>
-                  <th scope="col">Institution</th>
-                  <th scope="col">Votes</th>
-                </tr>
-              </thead>
-              <tbody id="leaderboard"></tbody>
-            </table>
+          <div class="leaderboard-search-wrap">
+            <svg class="leaderboard-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="leaderboard-search" placeholder="Search your college to see current momentum..." autocomplete="off"/>
           </div>
+
+          <div class="leaderboard-wrap">
+            <div class="lb-header" aria-hidden="true">
+              <span class="lb-header-cell" style="text-align:center;">Rank</span>
+              <span class="lb-header-cell">Institution</span>
+              <span class="lb-header-cell" style="text-align:center;">Votes</span>
+            </div>
+            <div class="lb-list" id="leaderboard"></div>
+          </div>
+          <div class="leaderboard-no-result hidden" id="leaderboard-no-result"></div>
         </div>
       </section>
     </main>
@@ -1109,6 +1482,8 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       const shareXEl = document.getElementById('share-x');
       const xTemplateEl = document.getElementById('x-template');
       const waTemplateEl = document.getElementById('wa-template');
+      const leaderboardSearchEl = document.getElementById('leaderboard-search');
+      const leaderboardNoResultEl = document.getElementById('leaderboard-no-result');
 
       let turnstileToken = '';
       let colleges = [];
@@ -1117,6 +1492,7 @@ const turnstileSiteKey = '1x00000000000000000000AA';
       let selectedCollege = null;
       let currentCounter = 0;
       let previousCounterDisplay = '[ 0 ]';
+      let leaderboardData = [];
 
       if (!localStorage.getItem(tokenKey)) {
         localStorage.setItem(tokenKey, crypto.randomUUID() + crypto.randomUUID());
@@ -1242,20 +1618,20 @@ const turnstileSiteKey = '1x00000000000000000000AA';
 
       function buildXText(link) {
         return (
-          'As an adult pursuing higher education in UP, I refuse to be infantilized. Universities are centers of free thought, not high schools. I just cast my anonymous vote against the mandatory uniform rule. Add your voice here: ' +
+          'As an adult pursuing higher education in UP, I refuse to be infantilized. Universities are centers of free thought, not high schools. I just cast my vote against the mandatory uniform rule. Add your voice here: ' +
           link +
-          ' 🎓✊\n#NoToUPCollegeUniform #MyCampusMyChoice @UPGovt'
+          '\n#NoToUPCollegeUniform #MyCampusMyChoice @UPGovt'
         );
       }
 
       function buildWhatsAppText(link) {
         return (
-          '🚨 UP College Uniform Protest 2026 🚨\n' +
+          '*UP College Uniform Protest 2026*\n' +
           'They want to treat university students like school children. It is time to show our numbers.\n\n' +
-          'I just cast my anonymous vote against the mandatory uniform rule. It takes 10 seconds, requires NO email, and is 100% private.\n' +
-          '👉 Cast your vote here: ' +
+          'I just cast my vote against the mandatory uniform rule. It takes 10 seconds, requires NO email, and is 100% private.\n' +
+          '• Cast your vote here: ' +
           link +
-          '\n\nForward this to your hostel and class groups. Let’s cross 1 Lakh signatures today! #NoToUPCollegeUniform'
+          '\n\nForward this to your hostel and class groups. Let us cross 1 Lakh signatures today! #NoToUPCollegeUniform'
         );
       }
 
@@ -1325,51 +1701,87 @@ const turnstileSiteKey = '1x00000000000000000000AA';
         }
       }
 
+      function renderLeaderboardRows(rows, maxVotes) {
+        leaderboardEl.innerHTML = '';
+        leaderboardNoResultEl.classList.add('hidden');
+
+        if (!rows.length) {
+          const empty = document.createElement('div');
+          empty.className = 'lb-row';
+          empty.innerHTML = '<span class="lb-cell" style="text-align:center;color:var(--muted)">—</span><span class="lb-cell" style="color:var(--muted)">No votes yet. Your campus could be first.</span><span class="lb-cell" style="text-align:center;color:var(--muted)">0</span>';
+          leaderboardEl.append(empty);
+          return;
+        }
+
+        const topVotes = maxVotes || Number(rows[0].vote_count || 0);
+
+        rows.forEach((row, index) => {
+          const votes = Number(row.vote_count || 0);
+          const pct = topVotes > 0 ? Math.max((votes / topVotes) * 100, 2) : 0;
+          const label = row.college_name + (row.district ? ', ' + row.district : '');
+          const rank = row._rank !== undefined ? row._rank : index + 1;
+
+          const el = document.createElement('div');
+          el.className = 'lb-row' + (rank === 1 ? ' top-row' : '');
+          el.innerHTML =
+            '<span class="lb-cell lb-rank">#' + rank + '</span>' +
+            '<div class="lb-cell lb-info-cell">' +
+              '<span class="lb-name">' + label + '</span>' +
+              '<div class="lb-bar-track"><div class="lb-bar-fill" style="width: ' + pct + '%"></div></div>' +
+            '</div>' +
+            '<span class="lb-cell lb-votes">' + votes.toLocaleString('en-IN') + '</span>';
+          leaderboardEl.append(el);
+        });
+      }
+
       async function loadLeaderboard() {
         try {
-          const response = await fetch('/api/leaderboard?limit=10');
+          const response = await fetch('/api/leaderboard?limit=5');
           const data = await response.json();
-          leaderboardEl.innerHTML = '';
-
-          const rows = data.rows || [];
-          if (!rows.length) {
-            const tr = document.createElement('tr');
-            const td = document.createElement('td');
-            td.colSpan = 3;
-            td.textContent = 'No votes yet. Your campus could be first.';
-            tr.append(td);
-            leaderboardEl.append(tr);
-            return;
+          leaderboardData = (data.rows || []).map((row, index) => ({
+            ...row,
+            _rank: index + 1,
+            _label: (row.college_name + (row.district ? ', ' + row.district : '')).toLowerCase(),
+          }));
+          const query = (leaderboardSearchEl.value || '').trim().toLowerCase();
+          if (query) {
+            filterLeaderboard(query);
+          } else {
+            renderLeaderboardRows(leaderboardData);
           }
-
-          rows.forEach((row, index) => {
-            const tr = document.createElement('tr');
-            if (index === 0) tr.classList.add('top-row');
-
-            const rankCell = document.createElement('td');
-            rankCell.className = 'rank-cell';
-            rankCell.textContent = '#' + String(index + 1);
-
-            const institutionCell = document.createElement('td');
-            institutionCell.textContent = row.college_name + (row.district ? ', ' + row.district : '');
-
-            const votesCell = document.createElement('td');
-            votesCell.className = 'votes-cell';
-            votesCell.textContent = Number(row.vote_count || 0).toLocaleString('en-IN');
-
-            tr.append(rankCell, institutionCell, votesCell);
-            leaderboardEl.append(tr);
-          });
         } catch {
           leaderboardEl.innerHTML = '';
-          const tr = document.createElement('tr');
-          const td = document.createElement('td');
-          td.colSpan = 3;
-          td.textContent = 'Leaderboard unavailable right now.';
-          tr.append(td);
-          leaderboardEl.append(tr);
+          const empty = document.createElement('div');
+          empty.className = 'lb-row';
+          empty.innerHTML = '<span class="lb-cell" style="text-align:center;color:var(--muted)">—</span><span class="lb-cell" style="color:var(--muted)">Leaderboard unavailable right now.</span><span class="lb-cell" style="text-align:center;color:var(--muted)">—</span>';
+          leaderboardEl.append(empty);
         }
       }
+
+      function filterLeaderboard(query) {
+        if (!query) {
+          renderLeaderboardRows(leaderboardData);
+          leaderboardNoResultEl.classList.add('hidden');
+          return;
+        }
+
+        const maxVotes = leaderboardData.length ? Number(leaderboardData[0].vote_count || 0) : 0;
+        const filtered = leaderboardData.filter(row => row._label.includes(query));
+
+        if (filtered.length) {
+          renderLeaderboardRows(filtered, maxVotes);
+          leaderboardNoResultEl.classList.add('hidden');
+        } else {
+          leaderboardEl.innerHTML = '';
+          leaderboardNoResultEl.classList.remove('hidden');
+          leaderboardNoResultEl.innerHTML = 'Your college does not appear on the board yet. <a href="#vote-zone">Be the first from your campus to sign.</a>';
+        }
+      }
+
+      leaderboardSearchEl.addEventListener('input', () => {
+        const query = (leaderboardSearchEl.value || '').trim().toLowerCase();
+        filterLeaderboard(query);
+      });
 
       window.onTurnstileSuccess = function (token) {
         turnstileToken = token;
