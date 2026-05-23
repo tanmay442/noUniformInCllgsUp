@@ -40,4 +40,5 @@ INSERT OR IGNORE INTO colleges_list (id, college_name, district) VALUES
   (478, 'U.P.King George''s University of Dental Sciences', ''),
   (487, 'University of Lucknow', '226007'),
   (493, 'Uttar Pradesh University of Medical Sciences', '206130'),
-  (500, 'Veer Bahadur Singh Purvanchal University', '222002');
+  (500, 'Veer Bahadur Singh Purvanchal University', '222002'),
+  (999, 'Other / General Public', '');

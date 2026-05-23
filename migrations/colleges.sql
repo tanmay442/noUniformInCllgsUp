@@ -18,5 +18,7 @@ CREATE TABLE IF NOT EXISTS stats (
 
 INSERT OR IGNORE INTO stats (key, value) VALUES ('global_total', 0);
 
+INSERT OR IGNORE INTO colleges_list (id, college_name, district) VALUES (999, 'Other / General Public', '');
+
 CREATE INDEX IF NOT EXISTS idx_colleges_votes
   ON colleges_list (vote_count DESC, id ASC);

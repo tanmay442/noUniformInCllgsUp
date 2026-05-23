@@ -524,6 +524,19 @@
         color: var(--muted);
       }
 
+      .result-separator {
+        height: 1px;
+        background: var(--line);
+        margin: 4px 0;
+        list-style: none;
+      }
+
+      .result-other {
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        color: var(--crimson) !important;
+      }
+
       .field-hint {
         margin: 0;
         color: var(--muted);
@@ -1753,12 +1766,12 @@
                     aria-autocomplete="list"
                     aria-expanded="false"
                     aria-controls="institution-results"
-                    placeholder="Type your affiliated university name .."
+                    placeholder="Type your college or university name..."
                   />
                   <input id="college-id" type="hidden" />
                   <ul id="institution-results" class="result-list hidden" role="listbox"></ul>
                 </div>
-                <p class="field-hint" id="institution-hint">Start typing to filter colleges.</p>
+                <p class="field-hint" id="institution-hint">Start typing to filter colleges, or choose Other if not listed.</p>
               </div>
 
               <div class="field">
@@ -2070,35 +2083,55 @@
         });
       }
 
+      const otherCollege = { id: 999, label: 'Other / General Public', normalized: 'other general public' };
+
       function renderResultList(matches) {
         institutionResultsEl.innerHTML = '';
 
-        if (!matches.length) {
+        if (matches.length) {
+          matches.forEach((college, index) => {
+            const li = document.createElement('li');
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.setAttribute('role', 'option');
+            button.setAttribute('aria-selected', index === activeMatchIndex ? 'true' : 'false');
+            button.textContent = college.label;
+            button.addEventListener('mousedown', (event) => {
+              event.preventDefault();
+              selectCollege(college);
+            });
+            button.addEventListener('click', () => {
+              selectCollege(college);
+            });
+            li.append(button);
+            institutionResultsEl.append(li);
+          });
+        } else {
           const empty = document.createElement('li');
           empty.className = 'result-empty';
-          empty.textContent = 'No matching institution yet. Try district or college name.';
+          empty.textContent = 'Campus not found? Pick the university it is affiliated to, or select Other below.';
           institutionResultsEl.append(empty);
-          openResultList();
-          return;
         }
 
-        matches.forEach((college, index) => {
-          const li = document.createElement('li');
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.setAttribute('role', 'option');
-          button.setAttribute('aria-selected', index === activeMatchIndex ? 'true' : 'false');
-          button.textContent = college.label;
-          button.addEventListener('mousedown', (event) => {
-            event.preventDefault();
-            selectCollege(college);
-          });
-          button.addEventListener('click', () => {
-            selectCollege(college);
-          });
-          li.append(button);
-          institutionResultsEl.append(li);
+        const sep = document.createElement('li');
+        sep.className = 'result-separator';
+        institutionResultsEl.append(sep);
+
+        const otherLi = document.createElement('li');
+        const otherBtn = document.createElement('button');
+        otherBtn.type = 'button';
+        otherBtn.setAttribute('role', 'option');
+        otherBtn.className = 'result-other';
+        otherBtn.textContent = otherCollege.label;
+        otherBtn.addEventListener('mousedown', (event) => {
+          event.preventDefault();
+          selectCollege(otherCollege);
         });
+        otherBtn.addEventListener('click', () => {
+          selectCollege(otherCollege);
+        });
+        otherLi.append(otherBtn);
+        institutionResultsEl.append(otherLi);
 
         openResultList();
       }
@@ -2117,7 +2150,7 @@
       function clearSelectedCollege() {
         selectedCollege = null;
         collegeIdEl.value = '';
-        institutionHintEl.textContent = 'Start typing to filter colleges.';
+        institutionHintEl.textContent = 'Start typing to filter colleges, or choose Other if not listed.';
       }
 
       function syncSubmitState() {
@@ -2154,9 +2187,10 @@
         const displayLink = location.host || link;
         const xText = buildXText(link);
         const igCaption = buildInstagramCaption(link);
+        const displayLabel = institutionLabel === 'Other / General Public' ? 'Sovereign Citizen' : institutionLabel;
 
         cardSubtitleEl.textContent = cardNameEl.value.trim() || 'Your Name';
-        cardCollegeEl.textContent = institutionLabel;
+        cardCollegeEl.textContent = displayLabel;
         if (cardLinkEl) {
           cardLinkEl.textContent = displayLink;
         }
@@ -2398,7 +2432,7 @@
         clearSelectedCollege();
         const normalizedQuery = normalizeText(query);
         visibleMatches = colleges
-          .filter((college) => college.normalized.includes(normalizedQuery))
+          .filter((college) => college.normalized.includes(normalizedQuery) && college.id !== 999)
           .slice(0, 10);
 
         activeMatchIndex = visibleMatches.length ? 0 : -1;
@@ -2412,7 +2446,7 @@
 
         const normalizedQuery = normalizeText(query);
         visibleMatches = colleges
-          .filter((college) => college.normalized.includes(normalizedQuery))
+          .filter((college) => college.normalized.includes(normalizedQuery) && college.id !== 999)
           .slice(0, 10);
 
         activeMatchIndex = visibleMatches.length ? 0 : -1;
