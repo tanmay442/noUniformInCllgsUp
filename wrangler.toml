@@ -1,15 +1,16 @@
 name = "up-anonymous-protest-portal"
-main = "src/worker.ts"
+main = "./src/worker.ts"
 compatibility_date = "2026-05-22"
 workers_dev = true
+
+[assets]
+directory = "./dist"
 
 
 [vars]
 TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 TURNSTILE_EXPECTED_ACTION = "vote"
 TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal.goeltanmay442.workers.dev"
-TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"
-VOTE_TOKEN_PEPPER_VALUE = "cdbf99f39569d595ed43d7aca0010f7fb2ffc6e4b1cf917119fc828f49d2b0d42f4722520b22240b4d07523032058874"
 TALLY_CACHE_TTL = "10"
 LEADERBOARD_CACHE_TTL = "20"
 
@@ -32,6 +33,10 @@ queue = "vote-events"
 max_batch_size = 100
 max_batch_timeout = 5
 
+[[kv_namespaces]]
+binding = "SESSION"
+id = "2611871aa4a24f88b6fb2a68f7b14ecb"
+
 [triggers]
 crons = ["*/10 * * * *"]
 
@@ -40,8 +45,6 @@ crons = ["*/10 * * * *"]
 TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 TURNSTILE_EXPECTED_ACTION = "vote"
 TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal-staging.goeltanmay442.workers.dev"
-TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"
-VOTE_TOKEN_PEPPER_VALUE = "c0c6ee2645a9556db45b267afa783709e8e899beb931069ed0e82d6d2866c11b6fa50f5489d1d23d1b0ec8b14f9bc1f5"
 TALLY_CACHE_TTL = "10"
 LEADERBOARD_CACHE_TTL = "20"
 
@@ -64,6 +67,10 @@ queue = "vote-events-staging"
 max_batch_size = 100
 max_batch_timeout = 5
 
+[[env.staging.kv_namespaces]]
+binding = "SESSION"
+id = "2611871aa4a24f88b6fb2a68f7b14ecb"
+
 [env.staging.triggers]
 crons = ["*/10 * * * *"]
 
@@ -72,8 +79,6 @@ crons = ["*/10 * * * *"]
 TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 TURNSTILE_EXPECTED_ACTION = "vote"
 TURNSTILE_EXPECTED_HOSTNAME = "up-anonymous-protest-portal-production.goeltanmay442.workers.dev"
-TURNSTILE_SECRET_VALUE = "1x0000000000000000000000000000000AA"
-VOTE_TOKEN_PEPPER_VALUE = "b3c25b3f432cfe7e2be9451dd1c0defe5b7c321b1d218935b2a77bfeaf2a40633c762583d892e88a8e3c68c4ff41d813"
 TALLY_CACHE_TTL = "10"
 LEADERBOARD_CACHE_TTL = "20"
 
@@ -95,6 +100,10 @@ queue = "vote-events-prod"
 queue = "vote-events-prod"
 max_batch_size = 100
 max_batch_timeout = 5
+
+[[env.production.kv_namespaces]]
+binding = "SESSION"
+id = "2611871aa4a24f88b6fb2a68f7b14ecb"
 
 [env.production.triggers]
 crons = ["*/5 * * * *"]

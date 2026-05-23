@@ -79,6 +79,13 @@ pnpm exec wrangler secret put VOTE_TOKEN_PEPPER --env production
 pnpm run dev
 ```
 
+## Build + Deploy
+
+```bash
+pnpm run build
+pnpm exec wrangler deploy
+```
+
 ## Checks
 
 ```bash

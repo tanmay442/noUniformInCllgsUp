@@ -1,0 +1,1654 @@
+---
+const turnstileSiteKey = '1x00000000000000000000AA';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No To UP College Uniform</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Anton&family=Chakra+Petch:wght@600;700&family=Manrope:wght@500;700;800&family=Merriweather:wght@400;700&display=swap');
+
+      :root {
+        --bg: oklch(0.14 0.01 305);
+        --bg-raised: oklch(0.19 0.016 305);
+        --bg-raised-2: oklch(0.23 0.019 305);
+        --paper: oklch(0.94 0.012 70);
+        --paper-ink: oklch(0.24 0.02 25);
+        --ink: oklch(0.94 0.01 90);
+        --muted: oklch(0.73 0.02 300);
+        --line: oklch(0.34 0.028 345 / 0.58);
+        --crimson: oklch(0.58 0.215 16);
+        --crimson-deep: oklch(0.49 0.2 16);
+        --success: oklch(0.72 0.16 154);
+        --focus: oklch(0.79 0.13 84);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: 'Manrope', system-ui, sans-serif;
+        background:
+          radial-gradient(1100px 420px at 20% 0%, oklch(0.28 0.11 16 / 0.2), transparent 75%),
+          radial-gradient(900px 420px at 80% 10%, oklch(0.3 0.09 350 / 0.17), transparent 75%),
+          var(--bg);
+        color: var(--ink);
+      }
+
+      main {
+        display: block;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      p {
+        margin: 0;
+      }
+
+      .shell {
+        width: min(1100px, 100% - clamp(1rem, 4vw, 3rem));
+        margin-inline: auto;
+      }
+
+      .impact {
+        padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(3rem, 8vw, 6rem);
+      }
+
+      .impact-grid {
+        display: grid;
+        gap: clamp(1.25rem, 3vw, 2.5rem);
+        align-items: end;
+      }
+
+      .stamp {
+        width: clamp(110px, 20vw, 170px);
+        aspect-ratio: 1;
+        border-radius: 18px;
+        border: 1px solid oklch(0.44 0.05 350 / 0.6);
+        background: linear-gradient(145deg, oklch(0.23 0.02 300), oklch(0.16 0.016 300));
+        padding: 0.8rem;
+        justify-self: start;
+        animation: stamp-in 620ms cubic-bezier(0.2, 0.9, 0.2, 1.05) 90ms both;
+      }
+
+      .stamp svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .campaign-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 800;
+        color: oklch(0.83 0.035 62);
+      }
+
+      .campaign-kicker::before {
+        content: '';
+        width: 1.4rem;
+        height: 2px;
+        background: var(--crimson);
+      }
+
+      .headline {
+        margin-top: 0.8rem;
+        font-family: 'Anton', Impact, sans-serif;
+        font-size: clamp(2.4rem, 9vw, 6.1rem);
+        line-height: 0.93;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        max-width: 12.3ch;
+        color: var(--ink);
+        text-wrap: balance;
+        transform: translateY(22px);
+        opacity: 0;
+        animation:
+          headline-rise 760ms cubic-bezier(0.14, 0.9, 0.22, 1) 120ms forwards,
+          headline-glitch 320ms steps(2, end) 120ms;
+      }
+
+      .hero-subhead {
+        margin-top: clamp(1rem, 2.4vw, 1.5rem);
+        max-width: 65ch;
+        color: var(--muted);
+        font-family: 'Merriweather', Georgia, serif;
+        font-size: clamp(1.02rem, 1.7vw, 1.2rem);
+        line-height: 1.7;
+      }
+
+      .counter-block {
+        margin-top: clamp(1.5rem, 4vw, 2.5rem);
+      }
+
+      .counter-label {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.8rem;
+        color: oklch(0.84 0.02 90);
+      }
+
+      .counter {
+        margin-top: 0.5rem;
+        font-family: 'Chakra Petch', 'Courier New', monospace;
+        font-size: clamp(2.2rem, 8vw, 4.2rem);
+        font-weight: 700;
+        color: var(--crimson);
+        filter: drop-shadow(0 0 16px oklch(0.58 0.22 16 / 0.78));
+        animation: counter-pulse 2.6s ease-out infinite;
+      }
+
+      .counter.bump {
+        animation:
+          counter-pulse 2.6s ease-out infinite,
+          counter-bump 520ms cubic-bezier(0.18, 0.9, 0.2, 1);
+      }
+
+      .counter .digit {
+        display: inline-block;
+        min-width: 0.58ch;
+        transform-origin: 50% 62%;
+      }
+
+      .counter .digit.flip {
+        animation: digit-flip 420ms cubic-bezier(0.18, 0.9, 0.22, 1);
+      }
+
+      .counter-updated {
+        margin-top: 0.6rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .torn-divider {
+        line-height: 0;
+      }
+
+      .torn-divider svg {
+        width: 100%;
+        height: clamp(44px, 7vw, 78px);
+        display: block;
+      }
+
+      .to-paper {
+        color: var(--paper);
+      }
+
+      .to-dark {
+        color: var(--bg);
+        transform: rotate(180deg);
+      }
+
+      .manifesto {
+        background: var(--paper);
+        color: var(--paper-ink);
+        padding: clamp(2.4rem, 7vw, 5.2rem) 0;
+      }
+
+      .section-kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.77rem;
+        font-weight: 800;
+        color: oklch(0.44 0.05 30);
+      }
+
+      .manifesto h2,
+      .action-copy h2,
+      .leaderboard-zone h2 {
+        margin-top: 0.5rem;
+        font-family: 'Anton', Impact, sans-serif;
+        font-size: clamp(1.9rem, 5.6vw, 3.5rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+
+      .manifesto-intro {
+        margin-top: 1rem;
+        max-width: 70ch;
+        font-family: 'Merriweather', Georgia, serif;
+        line-height: 1.75;
+        color: oklch(0.3 0.03 24);
+      }
+
+      .demand-grid {
+        margin-top: clamp(1.6rem, 4vw, 2.4rem);
+        display: grid;
+        gap: 1rem;
+        padding: 0;
+        list-style: none;
+      }
+
+      .demand-item {
+        border: 1px solid oklch(0.73 0.03 42);
+        background: oklch(0.97 0.006 72);
+        padding: 1rem 1rem 1.1rem;
+        display: grid;
+        gap: 0.6rem;
+      }
+
+      .demand-title {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.7rem;
+        align-items: baseline;
+      }
+
+      .demand-emoji {
+        font-size: 1.3rem;
+      }
+
+      .demand-item h3 {
+        font-size: clamp(1rem, 2.6vw, 1.23rem);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .demand-item p {
+        margin: 0;
+        font-family: 'Merriweather', Georgia, serif;
+        color: oklch(0.3 0.025 24);
+        line-height: 1.72;
+        max-width: 67ch;
+      }
+
+      .action-zone {
+        padding: clamp(2.2rem, 7vw, 5rem) 0;
+      }
+
+      .action-layout {
+        display: grid;
+        gap: clamp(1.3rem, 3vw, 2.2rem);
+      }
+
+      .action-copy p {
+        margin-top: 1rem;
+        max-width: 66ch;
+        color: var(--muted);
+        font-family: 'Merriweather', Georgia, serif;
+        line-height: 1.7;
+      }
+
+      .hashtag-list {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        padding: 0;
+        list-style: none;
+      }
+
+      .hashtag-list li {
+        border: 1px solid var(--line);
+        background: oklch(0.22 0.03 332);
+        color: oklch(0.9 0.03 85);
+        padding: 0.34rem 0.68rem;
+        font-size: 0.83rem;
+        font-weight: 700;
+      }
+
+      .vote-shell {
+        border: 1px solid var(--line);
+        background: linear-gradient(165deg, var(--bg-raised), var(--bg));
+        padding: clamp(1rem, 3vw, 1.6rem);
+        position: relative;
+        overflow: clip;
+      }
+
+      #vote-form {
+        display: grid;
+        gap: 1.15rem;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      label {
+        font-size: 0.95rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .combobox {
+        position: relative;
+      }
+
+      input,
+      button,
+      .share-link {
+        font: inherit;
+      }
+
+      #institution-search,
+      #card-name {
+        width: 100%;
+        border: 1px solid oklch(0.36 0.04 330);
+        background: oklch(0.18 0.016 305);
+        color: var(--ink);
+        padding: 0.88rem 0.95rem;
+        font-size: 1rem;
+      }
+
+      #institution-search::placeholder,
+      #card-name::placeholder {
+        color: oklch(0.66 0.02 312);
+      }
+
+      #institution-search:focus-visible,
+      #card-name:focus-visible,
+      .ghost-btn:focus-visible,
+      .share-link:focus-visible,
+      #submit-btn:focus-visible,
+      #download-card:focus-visible,
+      [data-copy-target]:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+
+      .result-list {
+        margin: 0;
+        padding: 0.45rem;
+        list-style: none;
+        position: absolute;
+        inset-inline: 0;
+        top: calc(100% + 0.3rem);
+        border: 1px solid oklch(0.36 0.04 330);
+        background: oklch(0.17 0.014 308);
+        display: grid;
+        gap: 0.25rem;
+        max-height: 250px;
+        overflow: auto;
+        z-index: 12;
+      }
+
+      .result-list button {
+        width: 100%;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--ink);
+        text-align: left;
+        padding: 0.52rem 0.62rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+      }
+
+      .result-list button:hover,
+      .result-list button[aria-selected='true'] {
+        border-color: oklch(0.52 0.11 16 / 0.65);
+        background: oklch(0.29 0.07 16 / 0.35);
+      }
+
+      .result-empty {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .field-hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .turnstile-wrap {
+        min-height: 68px;
+      }
+
+      .honey {
+        display: none;
+      }
+
+      #submit-btn,
+      #download-card,
+      .share-link,
+      [data-copy-target],
+      .ghost-btn {
+        cursor: pointer;
+        border: 1px solid transparent;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 900;
+      }
+
+      #submit-btn,
+      #download-card,
+      .share-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        background: var(--crimson);
+        color: oklch(0.97 0.01 80);
+        padding: 0.84rem 1rem;
+        border-bottom: 4px solid var(--crimson-deep);
+        transition:
+          transform 220ms cubic-bezier(0.18, 0.9, 0.22, 1),
+          box-shadow 220ms ease,
+          filter 220ms ease;
+      }
+
+      #submit-btn {
+        width: 100%;
+        margin-top: 0.2rem;
+        font-size: 1rem;
+      }
+
+      #submit-btn:not(.is-ready):not(:disabled) {
+        background: oklch(0.34 0.06 345);
+        border-bottom-color: oklch(0.26 0.04 345);
+        color: oklch(0.9 0.01 75);
+      }
+
+      #submit-btn:not(.is-ready):not(:disabled):hover {
+        transform: none;
+        box-shadow: none;
+        filter: none;
+      }
+
+      #submit-btn.is-ready:hover:not(:disabled),
+      #download-card:hover,
+      .share-link:hover {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 14px 28px oklch(0.44 0.17 16 / 0.45);
+        filter: drop-shadow(0 0 14px oklch(0.56 0.2 16 / 0.55));
+      }
+
+      #submit-btn.is-ready:active:not(:disabled),
+      #download-card:active,
+      .share-link:active {
+        transform: translateY(1px);
+        border-bottom-width: 1px;
+      }
+
+      #submit-btn:disabled {
+        opacity: 0.46;
+        cursor: not-allowed;
+        transform: none;
+        border-bottom-width: 4px;
+        box-shadow: none;
+        filter: none;
+      }
+
+      .vote-message {
+        min-height: 1.4rem;
+        margin-top: 0.15rem;
+        font-size: 0.9rem;
+        color: oklch(0.86 0.04 66);
+      }
+
+      .vote-shell.is-submitted #vote-form {
+        animation: collapse-out 520ms cubic-bezier(0.2, 0.88, 0.24, 1) forwards;
+      }
+
+      .vote-success {
+        margin-top: 0.9rem;
+        border: 1px solid oklch(0.72 0.13 150 / 0.7);
+        background: oklch(0.24 0.05 150 / 0.3);
+        padding: 0.95rem;
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      .vote-success .title {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 900;
+        color: var(--success);
+      }
+
+      .vote-success .copy {
+        font-size: 0.93rem;
+        color: oklch(0.86 0.03 115);
+      }
+
+      .share-zone {
+        margin-top: 1rem;
+        border: 1px solid var(--line);
+        background: oklch(0.17 0.015 305);
+        padding: clamp(1rem, 2.8vw, 1.4rem);
+        display: grid;
+        gap: 1.1rem;
+      }
+
+      .share-intro h3 {
+        font-family: 'Anton', Impact, sans-serif;
+        font-size: clamp(1.35rem, 3vw, 1.95rem);
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+
+      .share-intro p {
+        margin-top: 0.5rem;
+        color: var(--muted);
+        max-width: 64ch;
+        font-family: 'Merriweather', Georgia, serif;
+        line-height: 1.65;
+      }
+
+      .share-grid {
+        display: grid;
+        gap: 0.95rem;
+      }
+
+      .card-preview {
+        aspect-ratio: 1;
+        border: 1px solid oklch(0.42 0.07 350);
+        background:
+          radial-gradient(90% 60% at 15% 5%, oklch(0.36 0.16 16 / 0.4), transparent 75%),
+          oklch(0.15 0.015 305);
+        display: grid;
+        align-content: space-between;
+        gap: 0.7rem;
+        padding: clamp(0.9rem, 2vw, 1.2rem);
+      }
+
+      .card-kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        font-size: 0.7rem;
+        color: oklch(0.84 0.02 88);
+      }
+
+      .card-title {
+        font-family: 'Anton', Impact, sans-serif;
+        font-size: clamp(1.35rem, 4.5vw, 2rem);
+        line-height: 0.96;
+        text-transform: uppercase;
+        max-width: 13ch;
+      }
+
+      .card-subtitle {
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+
+      .card-tags {
+        color: oklch(0.85 0.06 62);
+        font-size: 0.78rem;
+        letter-spacing: 0.02em;
+      }
+
+      .share-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+      }
+
+      .share-link {
+        text-decoration: none;
+        font-size: 0.82rem;
+        padding: 0.7rem 0.9rem;
+      }
+
+      .template-grid {
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      .template {
+        border: 1px solid oklch(0.36 0.03 325);
+        background: oklch(0.14 0.012 305);
+        padding: 0.85rem;
+        display: grid;
+        gap: 0.7rem;
+      }
+
+      .template h4 {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.84rem;
+      }
+
+      pre {
+        margin: 0;
+        white-space: pre-wrap;
+        font-family: 'Merriweather', Georgia, serif;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: oklch(0.88 0.013 88);
+      }
+
+      [data-copy-target],
+      .ghost-btn {
+        justify-self: start;
+        padding: 0.54rem 0.72rem;
+        background: transparent;
+        color: oklch(0.9 0.04 86);
+        border-color: oklch(0.44 0.08 16 / 0.7);
+      }
+
+      .leaderboard-zone {
+        padding: clamp(2.2rem, 7vw, 5rem) 0 clamp(2.8rem, 7vw, 5.6rem);
+      }
+
+      .leaderboard-zone p {
+        margin-top: 0.8rem;
+        max-width: 64ch;
+        color: var(--muted);
+      }
+
+      .leaderboard-wrap {
+        margin-top: 1.1rem;
+        border: 1px solid var(--line);
+        overflow: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 520px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 0.8rem 0.78rem;
+      }
+
+      th {
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: oklch(0.86 0.02 86);
+        border-bottom: 1px solid oklch(0.34 0.03 335);
+      }
+
+      td {
+        border-bottom: 1px solid oklch(0.27 0.024 330);
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .rank-cell {
+        width: 5rem;
+        font-weight: 800;
+        color: oklch(0.89 0.05 62);
+      }
+
+      .votes-cell {
+        font-family: 'Chakra Petch', 'Courier New', monospace;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+
+      .top-row {
+        background: oklch(0.24 0.06 16 / 0.27);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @keyframes headline-rise {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes headline-glitch {
+        0% {
+          text-shadow: none;
+          transform: translate(0);
+        }
+        24% {
+          text-shadow: 2px 0 var(--crimson);
+          transform: translate(-1px, 0);
+        }
+        48% {
+          text-shadow: -2px 0 oklch(0.85 0.16 270 / 0.72);
+          transform: translate(1px, 0);
+        }
+        72% {
+          text-shadow: 3px 0 var(--crimson), -2px 0 oklch(0.82 0.13 260 / 0.66);
+          transform: translate(-1px, 0);
+        }
+        100% {
+          text-shadow: none;
+          transform: translate(0);
+        }
+      }
+
+      @keyframes stamp-in {
+        from {
+          opacity: 0;
+          transform: scale(1.24) rotate(-13deg);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) rotate(-8deg);
+        }
+      }
+
+      @keyframes counter-pulse {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 12px oklch(0.56 0.2 16 / 0.52));
+        }
+        50% {
+          filter: drop-shadow(0 0 19px oklch(0.58 0.22 16 / 0.82));
+        }
+      }
+
+      @keyframes counter-bump {
+        0% {
+          transform: translateY(0);
+        }
+        25% {
+          transform: translateY(-4px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes digit-flip {
+        0% {
+          transform: translateY(10px) rotateX(-80deg);
+          opacity: 0;
+        }
+        60% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0) rotateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes collapse-out {
+        from {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-14px) scale(0.985);
+          filter: blur(3px);
+        }
+      }
+
+      @media (min-width: 860px) {
+        .impact-grid {
+          grid-template-columns: auto 1fr;
+        }
+
+        .demand-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .action-layout {
+          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+          align-items: start;
+        }
+
+        .share-grid {
+          grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+          align-items: stretch;
+        }
+
+        .template-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="impact">
+        <div class="shell impact-grid">
+          <div class="stamp" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M62.5 12L87 38L74 46V82L61 108L48 82V46L35 38L59.5 12C60.5 11 61.5 11 62.5 12Z"
+                stroke="oklch(0.92 0.015 85)"
+                stroke-width="4"
+                fill="oklch(0.2 0.02 302)"
+              />
+              <path
+                d="M20 98L104 24"
+                stroke="oklch(0.58 0.215 16)"
+                stroke-width="12"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M16 90L100 16"
+                stroke="oklch(0.66 0.13 24 / 0.4)"
+                stroke-width="5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+
+          <div>
+            <p class="campaign-kicker">UP College Uniform Protest 2026</p>
+            <h1 class="headline">Scholars. Not Schoolchildren.</h1>
+            <p class="hero-subhead">
+              Higher education demands higher freedoms. We, the adult students of Uttar Pradesh,
+              unitedly reject the regression of mandatory college uniforms.
+            </p>
+
+            <div class="counter-block">
+              <p class="counter-label">Current Verified Protests Across UP:</p>
+              <p class="counter" id="tally" aria-live="polite">[ 0 ]</p>
+              <p class="counter-updated" id="updated">Live count warming up</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="torn-divider to-paper" aria-hidden="true">
+        <svg viewBox="0 0 1440 88" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill="currentColor"
+            d="M0 0h1440v38c-41 11-79 20-120 20-78 0-108-33-180-33-78 0-96 30-177 30-87 0-96-22-180-22-82 0-112 31-189 31-82 0-120-35-206-35-94 0-127 30-189 42V0Z"
+          />
+        </svg>
+      </div>
+
+      <section class="manifesto" id="manifesto">
+        <div class="shell">
+          <p class="section-kicker">The Manifesto</p>
+          <h2>Three Formal Demands</h2>
+          <p class="manifesto-intro">
+            Students are adults, voters, and future professionals. Policy must reflect dignity,
+            economic reality, and the purpose of a university.
+          </p>
+
+          <ol class="demand-grid">
+            <li class="demand-item">
+              <div class="demand-title">
+                <span class="demand-emoji" aria-hidden="true">🏛️</span>
+                <h3>Recognition of Autonomy</h3>
+              </div>
+              <p>
+                University students are legal adults, voters, and independent thinkers. Dictating
+                adult attire infantilizes higher education and suppresses individuality.
+              </p>
+            </li>
+
+            <li class="demand-item">
+              <div class="demand-title">
+                <span class="demand-emoji" aria-hidden="true">💸</span>
+                <h3>Relief from Financial Burden</h3>
+              </div>
+              <p>
+                Mandatory uniforms act as a hidden tax on students, disproportionately affecting
+                those from economically weaker sections who already struggle with tuition and hostel
+                fees.
+              </p>
+            </li>
+
+            <li class="demand-item">
+              <div class="demand-title">
+                <span class="demand-emoji" aria-hidden="true">📚</span>
+                <h3>Focus on Excellence, Not Apparel</h3>
+              </div>
+              <p>
+                Discipline in universities is built through academic rigor, research, and critical
+                thinking. Administration must prioritize infrastructure and placements, not policing
+                wardrobes.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <div class="torn-divider to-dark" aria-hidden="true">
+        <svg viewBox="0 0 1440 88" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill="currentColor"
+            d="M0 0h1440v38c-41 11-79 20-120 20-78 0-108-33-180-33-78 0-96 30-177 30-87 0-96-22-180-22-82 0-112 31-189 31-82 0-120-35-206-35-94 0-127 30-189 42V0Z"
+          />
+        </svg>
+      </div>
+
+      <section class="action-zone" id="vote-zone">
+        <div class="shell action-layout">
+          <div class="action-copy">
+            <p class="section-kicker">Register your dissent</p>
+            <h2>One Anonymous Vote, One Public Signal</h2>
+            <p>
+              Select your institution, complete silent human verification, and cast your vote.
+              Authorities can dismiss individuals. They cannot dismiss statewide numbers.
+            </p>
+            <ul class="hashtag-list" aria-label="Official hashtags">
+              <li>#NoToUPCollegeUniform</li>
+              <li>#MyCampusMyChoice</li>
+              <li>#AdultsNotKids</li>
+            </ul>
+          </div>
+
+          <div class="vote-shell" id="vote-shell">
+            <form id="vote-form" novalidate>
+              <div class="field">
+                <label for="institution-search">Select your institution to register your dissent.</label>
+                <div class="combobox">
+                  <input
+                    id="institution-search"
+                    type="text"
+                    autocomplete="off"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="institution-results"
+                    placeholder="Type Lucknow, Kanpur, Varanasi, Agra..."
+                  />
+                  <input id="college-id" type="hidden" />
+                  <ul id="institution-results" class="result-list hidden" role="listbox"></ul>
+                </div>
+                <p class="field-hint" id="institution-hint">Start typing to filter colleges.</p>
+              </div>
+
+              <div class="field">
+                <label>Human verification</label>
+                <div class="turnstile-wrap">
+                  <div
+                    class="cf-turnstile"
+                    data-sitekey={turnstileSiteKey}
+                    data-action="vote"
+                    data-callback="onTurnstileSuccess"
+                    data-expired-callback="onTurnstileExpired"
+                    data-error-callback="onTurnstileError"
+                  ></div>
+                </div>
+                <p class="field-hint">No email. No phone number. One anonymous vote per device.</p>
+              </div>
+
+              <input id="website" class="honey" tabindex="-1" autocomplete="off" />
+
+              <button id="submit-btn" type="submit" disabled>Cast My Anonymous Vote</button>
+              <p class="vote-message" id="vote-message" aria-live="polite"></p>
+            </form>
+
+            <div class="vote-success hidden" id="vote-success" aria-live="polite">
+              <p class="title">Vote registered. The tally grows.</p>
+              <p class="copy">Now push this to your hostel and class groups.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="shell">
+          <section class="share-zone hidden" id="share-section">
+            <div class="share-intro">
+              <h3>They cannot ignore us if we are everywhere.</h3>
+              <p>Generate your official protest card, then share with zero editing required.</p>
+            </div>
+
+            <div class="share-grid">
+              <div class="card-preview" id="card-preview" aria-label="Share card preview">
+                <p class="card-kicker">UP College Uniform Protest 2026</p>
+                <h3 class="card-title" id="card-title">I stand with students.</h3>
+                <p class="card-subtitle" id="card-subtitle">Institution: Pending</p>
+                <p class="card-tags">#NoToUPCollegeUniform · #MyCampusMyChoice · #AdultsNotKids</p>
+              </div>
+
+              <div>
+                <div class="field">
+                  <label for="card-name">First name for your card</label>
+                  <input id="card-name" maxlength="32" placeholder="Your first name" />
+                </div>
+
+                <div class="share-actions" style="margin-top: 0.8rem;">
+                  <button id="download-card" type="button">Download and Share</button>
+                  <a id="share-whatsapp" class="share-link" href="#" target="_blank" rel="noreferrer">WhatsApp</a>
+                  <a id="share-x" class="share-link" href="#" target="_blank" rel="noreferrer">X</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="template-grid">
+              <article class="template">
+                <h4>Pre-written X template</h4>
+                <pre id="x-template"></pre>
+                <button type="button" data-copy-target="x-template">Copy X text</button>
+              </article>
+
+              <article class="template">
+                <h4>Pre-written WhatsApp forward</h4>
+                <pre id="wa-template"></pre>
+                <button type="button" data-copy-target="wa-template">Copy WhatsApp text</button>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="leaderboard-zone" id="vanguard">
+        <div class="shell">
+          <p class="section-kicker">Live momentum</p>
+          <h2>Vanguard Institutions</h2>
+          <p>
+            Rival colleges are watching this table in real time. Share harder, move your campus up.
+          </p>
+
+          <div class="leaderboard-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Rank</th>
+                  <th scope="col">Institution</th>
+                  <th scope="col">Votes</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const votedKey = 'up_uniform_voted';
+      const tokenKey = 'up_uniform_vote_token';
+      const votedInstitutionKey = 'up_uniform_voted_institution';
+      const collegesVersion = '2026-05-23-uni-list';
+
+      const tallyEl = document.getElementById('tally');
+      const updatedEl = document.getElementById('updated');
+      const leaderboardEl = document.getElementById('leaderboard');
+
+      const voteForm = document.getElementById('vote-form');
+      const voteShell = document.getElementById('vote-shell');
+      const voteSuccessEl = document.getElementById('vote-success');
+      const voteMessageEl = document.getElementById('vote-message');
+      const submitBtn = document.getElementById('submit-btn');
+      const websiteEl = document.getElementById('website');
+
+      const institutionSearchEl = document.getElementById('institution-search');
+      const institutionHintEl = document.getElementById('institution-hint');
+      const collegeIdEl = document.getElementById('college-id');
+      const institutionResultsEl = document.getElementById('institution-results');
+
+      const shareSectionEl = document.getElementById('share-section');
+      const cardNameEl = document.getElementById('card-name');
+      const cardTitleEl = document.getElementById('card-title');
+      const cardSubtitleEl = document.getElementById('card-subtitle');
+      const downloadCardEl = document.getElementById('download-card');
+      const shareWhatsAppEl = document.getElementById('share-whatsapp');
+      const shareXEl = document.getElementById('share-x');
+      const xTemplateEl = document.getElementById('x-template');
+      const waTemplateEl = document.getElementById('wa-template');
+
+      let turnstileToken = '';
+      let colleges = [];
+      let visibleMatches = [];
+      let activeMatchIndex = -1;
+      let selectedCollege = null;
+      let currentCounter = 0;
+      let previousCounterDisplay = '[ 0 ]';
+
+      if (!localStorage.getItem(tokenKey)) {
+        localStorage.setItem(tokenKey, crypto.randomUUID() + crypto.randomUUID());
+      }
+
+      function alreadyVoted() {
+        return localStorage.getItem(votedKey) === 'true';
+      }
+
+      function normalizeText(value) {
+        return (value || '')
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .trim();
+      }
+
+      function formatCounter(value) {
+        return '[ ' + Number(value || 0).toLocaleString('en-IN') + ' ]';
+      }
+
+      function renderCounter(displayValue) {
+        const previousChars = Array.from(previousCounterDisplay);
+        tallyEl.innerHTML = '';
+
+        Array.from(displayValue).forEach((char, index) => {
+          const digit = document.createElement('span');
+          digit.className = 'digit';
+          digit.textContent = char === ' ' ? '\u00A0' : char;
+          if (previousChars[index] !== char) {
+            digit.classList.add('flip');
+          }
+          tallyEl.append(digit);
+        });
+
+        previousCounterDisplay = displayValue;
+      }
+
+      function bumpCounter(value) {
+        const next = Number(value || 0);
+        const displayValue = formatCounter(next);
+        if (next !== currentCounter) {
+          tallyEl.classList.remove('bump');
+          void tallyEl.offsetWidth;
+          tallyEl.classList.add('bump');
+        }
+        currentCounter = next;
+        renderCounter(displayValue);
+      }
+
+      function closeResultList() {
+        institutionResultsEl.classList.add('hidden');
+        institutionSearchEl.setAttribute('aria-expanded', 'false');
+      }
+
+      function openResultList() {
+        institutionResultsEl.classList.remove('hidden');
+        institutionSearchEl.setAttribute('aria-expanded', 'true');
+      }
+
+      function setActiveResult(index) {
+        activeMatchIndex = index;
+        const options = institutionResultsEl.querySelectorAll('button[role="option"]');
+        options.forEach((option, optionIndex) => {
+          option.setAttribute('aria-selected', optionIndex === activeMatchIndex ? 'true' : 'false');
+        });
+      }
+
+      function renderResultList(matches) {
+        institutionResultsEl.innerHTML = '';
+
+        if (!matches.length) {
+          const empty = document.createElement('li');
+          empty.className = 'result-empty';
+          empty.textContent = 'No matching institution yet. Try district or college name.';
+          institutionResultsEl.append(empty);
+          openResultList();
+          return;
+        }
+
+        matches.forEach((college, index) => {
+          const li = document.createElement('li');
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.setAttribute('role', 'option');
+          button.setAttribute('aria-selected', index === activeMatchIndex ? 'true' : 'false');
+          button.textContent = college.label;
+          button.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+            selectCollege(college);
+          });
+          button.addEventListener('click', () => {
+            selectCollege(college);
+          });
+          li.append(button);
+          institutionResultsEl.append(li);
+        });
+
+        openResultList();
+      }
+
+      function selectCollege(college) {
+        selectedCollege = college;
+        collegeIdEl.value = String(college.id);
+        institutionSearchEl.value = college.label;
+        institutionHintEl.textContent = 'Selected: ' + college.label;
+        visibleMatches = [];
+        activeMatchIndex = -1;
+        closeResultList();
+        syncSubmitState();
+      }
+
+      function clearSelectedCollege() {
+        selectedCollege = null;
+        collegeIdEl.value = '';
+        institutionHintEl.textContent = 'Start typing to filter colleges.';
+      }
+
+      function syncSubmitState() {
+        submitBtn.disabled = alreadyVoted();
+        submitBtn.classList.toggle('is-ready', Boolean(selectedCollege && turnstileToken));
+      }
+
+      function buildXText(link) {
+        return (
+          'As an adult pursuing higher education in UP, I refuse to be infantilized. Universities are centers of free thought, not high schools. I just cast my anonymous vote against the mandatory uniform rule. Add your voice here: ' +
+          link +
+          ' 🎓✊\n#NoToUPCollegeUniform #MyCampusMyChoice @UPGovt'
+        );
+      }
+
+      function buildWhatsAppText(link) {
+        return (
+          '🚨 UP College Uniform Protest 2026 🚨\n' +
+          'They want to treat university students like school children. It is time to show our numbers.\n\n' +
+          'I just cast my anonymous vote against the mandatory uniform rule. It takes 10 seconds, requires NO email, and is 100% private.\n' +
+          '👉 Cast your vote here: ' +
+          link +
+          '\n\nForward this to your hostel and class groups. Let’s cross 1 Lakh signatures today! #NoToUPCollegeUniform'
+        );
+      }
+
+      function updateSharePayload(institutionLabel) {
+        const link = location.href;
+        const xText = buildXText(link);
+        const waText = buildWhatsAppText(link);
+
+        cardSubtitleEl.textContent = 'Institution: ' + institutionLabel;
+        xTemplateEl.textContent = xText;
+        waTemplateEl.textContent = waText;
+        shareXEl.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(xText);
+        shareWhatsAppEl.href = 'https://wa.me/?text=' + encodeURIComponent(waText);
+      }
+
+      function revealSuccess(institutionLabel) {
+        voteShell.classList.add('is-submitted');
+        voteForm.addEventListener(
+          'animationend',
+          () => {
+            voteForm.classList.add('hidden');
+          },
+          { once: true },
+        );
+        voteSuccessEl.classList.remove('hidden');
+        shareSectionEl.classList.remove('hidden');
+        localStorage.setItem(votedInstitutionKey, institutionLabel);
+        updateSharePayload(institutionLabel);
+      }
+
+      function initializeVotedExperience() {
+        voteForm.classList.add('hidden');
+        voteSuccessEl.classList.remove('hidden');
+        shareSectionEl.classList.remove('hidden');
+        const savedInstitution = localStorage.getItem(votedInstitutionKey) || 'Your institution';
+        updateSharePayload(savedInstitution);
+      }
+
+      async function loadColleges() {
+        const response = await fetch('/api/colleges?v=' + collegesVersion);
+        const data = await response.json();
+        colleges = (data.rows || []).map((row) => {
+          const label = row.college_name + (row.district ? ', ' + row.district : '');
+          return {
+            id: Number(row.id),
+            label,
+            normalized: normalizeText(label),
+          };
+        });
+      }
+
+      async function loadTally() {
+        try {
+          const response = await fetch('/api/tally');
+          const data = await response.json();
+          bumpCounter(data.global_total || 0);
+          const updatedAt = data.updated_at ? new Date(data.updated_at) : new Date();
+          updatedEl.textContent =
+            'Last verified update at ' +
+            updatedAt.toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            });
+        } catch {
+          updatedEl.textContent = 'Live update temporarily unavailable';
+        }
+      }
+
+      async function loadLeaderboard() {
+        try {
+          const response = await fetch('/api/leaderboard?limit=10');
+          const data = await response.json();
+          leaderboardEl.innerHTML = '';
+
+          const rows = data.rows || [];
+          if (!rows.length) {
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.colSpan = 3;
+            td.textContent = 'No votes yet. Your campus could be first.';
+            tr.append(td);
+            leaderboardEl.append(tr);
+            return;
+          }
+
+          rows.forEach((row, index) => {
+            const tr = document.createElement('tr');
+            if (index === 0) tr.classList.add('top-row');
+
+            const rankCell = document.createElement('td');
+            rankCell.className = 'rank-cell';
+            rankCell.textContent = '#' + String(index + 1);
+
+            const institutionCell = document.createElement('td');
+            institutionCell.textContent = row.college_name + (row.district ? ', ' + row.district : '');
+
+            const votesCell = document.createElement('td');
+            votesCell.className = 'votes-cell';
+            votesCell.textContent = Number(row.vote_count || 0).toLocaleString('en-IN');
+
+            tr.append(rankCell, institutionCell, votesCell);
+            leaderboardEl.append(tr);
+          });
+        } catch {
+          leaderboardEl.innerHTML = '';
+          const tr = document.createElement('tr');
+          const td = document.createElement('td');
+          td.colSpan = 3;
+          td.textContent = 'Leaderboard unavailable right now.';
+          tr.append(td);
+          leaderboardEl.append(tr);
+        }
+      }
+
+      window.onTurnstileSuccess = function (token) {
+        turnstileToken = token;
+        voteMessageEl.textContent = '';
+        syncSubmitState();
+      };
+
+      window.onTurnstileExpired = function () {
+        turnstileToken = '';
+        voteMessageEl.textContent = 'Human verification expired. Please verify again.';
+        syncSubmitState();
+      };
+
+      window.onTurnstileError = function () {
+        turnstileToken = '';
+        voteMessageEl.textContent = 'Human verification failed. Please retry.';
+        syncSubmitState();
+      };
+
+      institutionSearchEl.addEventListener('input', () => {
+        const query = institutionSearchEl.value.trim();
+
+        if (!query) {
+          clearSelectedCollege();
+          visibleMatches = [];
+          activeMatchIndex = -1;
+          closeResultList();
+          syncSubmitState();
+          return;
+        }
+
+        if (selectedCollege && normalizeText(selectedCollege.label) === normalizeText(query)) {
+          return;
+        }
+
+        clearSelectedCollege();
+        const normalizedQuery = normalizeText(query);
+        visibleMatches = colleges
+          .filter((college) => college.normalized.includes(normalizedQuery))
+          .slice(0, 10);
+
+        activeMatchIndex = visibleMatches.length ? 0 : -1;
+        renderResultList(visibleMatches);
+        syncSubmitState();
+      });
+
+      institutionSearchEl.addEventListener('focus', () => {
+        const query = institutionSearchEl.value.trim();
+        if (!query) return;
+
+        const normalizedQuery = normalizeText(query);
+        visibleMatches = colleges
+          .filter((college) => college.normalized.includes(normalizedQuery))
+          .slice(0, 10);
+
+        activeMatchIndex = visibleMatches.length ? 0 : -1;
+        renderResultList(visibleMatches);
+      });
+
+      institutionSearchEl.addEventListener('blur', () => {
+        setTimeout(() => closeResultList(), 120);
+      });
+
+      institutionSearchEl.addEventListener('keydown', (event) => {
+        if (institutionResultsEl.classList.contains('hidden') || !visibleMatches.length) {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+          }
+          return;
+        }
+
+        if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          const next = Math.min(activeMatchIndex + 1, visibleMatches.length - 1);
+          setActiveResult(next);
+          return;
+        }
+
+        if (event.key === 'ArrowUp') {
+          event.preventDefault();
+          const next = Math.max(activeMatchIndex - 1, 0);
+          setActiveResult(next);
+          return;
+        }
+
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          if (activeMatchIndex >= 0 && visibleMatches[activeMatchIndex]) {
+            selectCollege(visibleMatches[activeMatchIndex]);
+          }
+          return;
+        }
+
+        if (event.key === 'Escape') {
+          closeResultList();
+        }
+      });
+
+      voteForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (!selectedCollege) {
+          const typedValue = institutionSearchEl.value.trim();
+          const normalizedTyped = normalizeText(typedValue);
+
+          if (normalizedTyped) {
+            const exactMatch = colleges.find((college) => college.normalized === normalizedTyped);
+            const partialMatch = colleges.find((college) => college.normalized.includes(normalizedTyped));
+            const fallbackMatch = visibleMatches[0];
+            const resolved = exactMatch || partialMatch || fallbackMatch || null;
+            if (resolved) {
+              selectCollege(resolved);
+            }
+          }
+        }
+
+        if (!selectedCollege) {
+          voteMessageEl.textContent = 'Select an institution first.';
+          return;
+        }
+
+        if (!turnstileToken) {
+          voteMessageEl.textContent = 'Complete human verification first.';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        voteMessageEl.textContent = 'Registering your vote...';
+
+        const payload = {
+          college_id: Number(collegeIdEl.value),
+          submission_id: crypto.randomUUID(),
+          voter_token: localStorage.getItem(tokenKey),
+          cf_turnstile_response: turnstileToken,
+          website: websiteEl.value,
+        };
+
+        let data;
+        try {
+          const response = await fetch('/api/vote', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          data = await response.json();
+        } catch {
+          voteMessageEl.textContent = 'Network error. Please retry.';
+          turnstileToken = '';
+          if (window.turnstile) window.turnstile.reset();
+          syncSubmitState();
+          return;
+        }
+
+        if (data.ok) {
+          localStorage.setItem(votedKey, 'true');
+          voteMessageEl.textContent = '';
+          revealSuccess(selectedCollege.label);
+          await Promise.all([loadTally(), loadLeaderboard()]);
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          shareSectionEl.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+          return;
+        }
+
+        voteMessageEl.textContent = (data.error && data.error.message) || 'Vote failed. Please retry.';
+        turnstileToken = '';
+        if (window.turnstile) window.turnstile.reset();
+        syncSubmitState();
+      });
+
+      cardNameEl.addEventListener('input', () => {
+        const safe = (cardNameEl.value || '').trim().slice(0, 32);
+        cardTitleEl.textContent = safe ? safe + ' stands with students.' : 'I stand with students.';
+      });
+
+      function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
+        const words = text.split(' ');
+        let line = '';
+        let currentY = y;
+
+        for (const word of words) {
+          const trial = line ? line + ' ' + word : word;
+          if (ctx.measureText(trial).width <= maxWidth) {
+            line = trial;
+          } else {
+            ctx.fillText(line, x, currentY);
+            line = word;
+            currentY += lineHeight;
+          }
+        }
+
+        if (line) {
+          ctx.fillText(line, x, currentY);
+          currentY += lineHeight;
+        }
+
+        return currentY;
+      }
+
+      downloadCardEl.addEventListener('click', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1080;
+        canvas.height = 1080;
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = '#0b0b0f';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#4f1022';
+        ctx.fillRect(0, 0, canvas.width, 130);
+
+        ctx.strokeStyle = '#e11d48';
+        ctx.lineWidth = 24;
+        ctx.beginPath();
+        ctx.moveTo(150, 910);
+        ctx.lineTo(920, 180);
+        ctx.stroke();
+
+        ctx.fillStyle = '#f4f4f5';
+        ctx.font = '700 38px Merriweather, serif';
+        ctx.fillText('UP COLLEGE UNIFORM PROTEST 2026', 78, 88);
+
+        ctx.fillStyle = '#f4f4f5';
+        ctx.font = '900 94px Anton, Impact, sans-serif';
+        let cursorY = wrapCanvasText(ctx, cardTitleEl.textContent.toUpperCase(), 78, 280, 900, 92);
+
+        ctx.fillStyle = '#d4d4d8';
+        ctx.font = '700 40px Merriweather, serif';
+        cursorY = wrapCanvasText(ctx, cardSubtitleEl.textContent, 78, cursorY + 24, 900, 52);
+
+        ctx.fillStyle = '#fda4af';
+        ctx.font = '700 35px Merriweather, serif';
+        wrapCanvasText(ctx, '#NoToUPCollegeUniform  #MyCampusMyChoice  #AdultsNotKids', 78, cursorY + 52, 900, 48);
+
+        const link = document.createElement('a');
+        link.download = 'up-protest-card.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+
+      document.querySelectorAll('[data-copy-target]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const targetId = button.getAttribute('data-copy-target');
+          if (!targetId) return;
+          const target = document.getElementById(targetId);
+          if (!target) return;
+
+          const value = target.textContent || '';
+          try {
+            await navigator.clipboard.writeText(value);
+            const previous = button.textContent;
+            button.textContent = 'Copied';
+            setTimeout(() => {
+              button.textContent = previous;
+            }, 1800);
+          } catch {
+            const temp = document.createElement('textarea');
+            temp.value = value;
+            document.body.append(temp);
+            temp.select();
+            document.execCommand('copy');
+            temp.remove();
+          }
+        });
+      });
+
+      const initialInstitution = localStorage.getItem(votedInstitutionKey) || 'Your institution';
+      updateSharePayload(initialInstitution);
+
+      Promise.all([loadColleges(), loadTally(), loadLeaderboard()]);
+      setInterval(() => {
+        loadTally();
+        loadLeaderboard();
+      }, 15000);
+
+      if (alreadyVoted()) {
+        initializeVotedExperience();
+      } else {
+        syncSubmitState();
+      }
+    </script>
+  </body>
+</html>

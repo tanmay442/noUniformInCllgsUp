@@ -13,8 +13,6 @@ export interface Env {
   TURNSTILE_SECRET: string;
   VOTE_TOKEN_PEPPER: string;
   TURNSTILE_SITE_KEY?: string;
-  TURNSTILE_SECRET_VALUE?: string;
-  VOTE_TOKEN_PEPPER_VALUE?: string;
   TURNSTILE_EXPECTED_ACTION?: string;
   TURNSTILE_EXPECTED_HOSTNAME?: string;
   TALLY_CACHE_TTL?: string;

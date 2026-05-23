@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { renderIndexHtml } from './html';
 import { decodeCursor, encodeCursor } from './lib/cursor';
 import { hashWithPepper } from './lib/hash';
 import { cacheControl, jsonError, jsonSuccess } from './lib/http';
@@ -38,12 +37,6 @@ app.onError((err, c) => {
 
 app.notFound((c) => jsonError(c, 404, 'NOT_FOUND', 'Route not found'));
 
-app.get('/', (c) =>
-  c.newResponse(renderIndexHtml(c.env.TURNSTILE_SITE_KEY ?? ''), 200, {
-    'content-type': 'text/html; charset=utf-8',
-    'cache-control': 'public, max-age=0, s-maxage=30, stale-while-revalidate=60',
-  }),
-);
 
 app.get('/healthz', (c) => jsonSuccess(c, { status: 'ok' }));
 
@@ -75,9 +68,17 @@ app.post('/api/vote', async (c) => {
   }
 
   const ip = c.req.header('CF-Connecting-IP');
-  const turnstileSecret = c.env.TURNSTILE_SECRET_VALUE || c.env.TURNSTILE_SECRET;
-  const votePepper = c.env.VOTE_TOKEN_PEPPER_VALUE || c.env.VOTE_TOKEN_PEPPER;
+  const turnstileSecret = c.env.TURNSTILE_SECRET;
+  const votePepper = c.env.VOTE_TOKEN_PEPPER;
   const isTestTurnstile = turnstileSecret === TEST_TURNSTILE_SECRET;
+
+  if (!turnstileSecret) {
+    return jsonError(c, 500, 'TURNSTILE_MISCONFIGURED', 'Human verification not configured');
+  }
+
+  if (!votePepper) {
+    return jsonError(c, 500, 'VOTE_SECURITY_MISCONFIGURED', 'Vote security is not configured');
+  }
 
   const turnstileResult = await verifyTurnstile({
     secret: turnstileSecret,
