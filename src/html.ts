@@ -1,54 +1,57 @@
 export function renderIndexHtml(turnstileSiteKey: string): string {
   return `<!doctype html>
 <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>UP Student Protest Portal</title>
-      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-      <style>
-      :root { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color-scheme: light; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UP Student Protest Portal</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
+      :root { font-family: 'Sora', 'Avenir Next', sans-serif; color-scheme: light; }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        color: #0f172a;
+        color: #0b1220;
         background:
-          radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 30%),
-          linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+          radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 35%),
+          radial-gradient(circle at 10% 30%, rgba(245, 158, 11, 0.08), transparent 40%),
+          linear-gradient(180deg, #f7f9ff 0%, #edf2f8 100%);
       }
-      main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 2rem; }
+      main { max-width: 900px; margin: 0 auto; padding: 1.75rem 1rem 2.5rem; }
       .hero {
-        background: rgba(255,255,255,.88);
-        border: 1px solid rgba(148,163,184,.24);
-        border-radius: 20px;
-        padding: 1.5rem;
-        box-shadow: 0 20px 60px rgba(15,23,42,.08);
-        backdrop-filter: blur(10px);
+        background: rgba(255,255,255,.92);
+        border: 1px solid rgba(148,163,184,.22);
+        border-radius: 22px;
+        padding: 1.75rem;
+        box-shadow: 0 30px 80px rgba(15,23,42,.08);
+        backdrop-filter: blur(12px);
       }
       .card {
-        background: rgba(255,255,255,.94);
+        background: rgba(255,255,255,.96);
         border: 1px solid rgba(148,163,184,.18);
-        border-radius: 20px;
-        padding: 1.25rem;
-        box-shadow: 0 14px 36px rgba(15,23,42,.06);
+        border-radius: 22px;
+        padding: 1.35rem;
+        box-shadow: 0 16px 40px rgba(15,23,42,.06);
         margin-bottom: 1rem;
       }
-      .row { display: grid; gap: .5rem; margin-bottom: .85rem; }
-      label { font-weight: 700; color: #0f172a; }
+      .row { display: grid; gap: .5rem; margin-bottom: .9rem; }
+      label { font-weight: 700; color: #0b1220; }
       input, select, button {
         font: inherit;
-        padding: .8rem .9rem;
-        border-radius: 12px;
+        padding: .85rem .95rem;
+        border-radius: 14px;
         border: 1px solid #cbd5e1;
       }
       input, select { background: #fff; }
       button {
         cursor: pointer;
         border: none;
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
         color: white;
         font-weight: 700;
-        box-shadow: 0 10px 22px rgba(37, 99, 235, .22);
+        letter-spacing: .01em;
+        box-shadow: 0 12px 24px rgba(37, 99, 235, .24);
       }
       button:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
       .muted { color: #475569; font-size: .95rem; }
@@ -62,9 +65,20 @@ export function renderIndexHtml(turnstileSiteKey: string): string {
       ul { padding-left: 1.1rem; }
       h1, h2 { margin: 0 0 .9rem; line-height: 1.1; }
       h1 { font-size: clamp(2rem, 4vw, 3rem); }
-      h2 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
+      h2 { font-size: clamp(1.3rem, 2.4vw, 1.75rem); }
       .stack { display: grid; gap: 1rem; }
       .lead { max-width: 56ch; color: #334155; }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+        padding: .35rem .7rem;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.06);
+        color: #1f2937;
+        font-size: .85rem;
+        font-weight: 600;
+      }
     </style>
   </head>
   <body>
@@ -86,11 +100,12 @@ export function renderIndexHtml(turnstileSiteKey: string): string {
 
       <section class="card" id="vote-section">
         <h2>Cast your anonymous vote</h2>
+        <p class="muted">Choose the university your college is affiliated with.</p>
         <form id="vote-form">
           <div class="row">
-            <label for="college">College</label>
+            <label for="college">University</label>
             <select id="college" required>
-              <option value="">Select your college</option>
+              <option value="">Select your university</option>
             </select>
           </div>
 
@@ -160,6 +175,7 @@ export function renderIndexHtml(turnstileSiteKey: string): string {
       const shareXEl = document.getElementById('share-x');
 
       let turnstileToken = '';
+      const collegesVersion = '2026-05-23-uni-list';
 
       if (!localStorage.getItem(tokenKey)) {
         localStorage.setItem(tokenKey, crypto.randomUUID() + crypto.randomUUID());
@@ -197,12 +213,13 @@ export function renderIndexHtml(turnstileSiteKey: string): string {
       };
 
       async function loadColleges() {
-        const res = await fetch('/api/colleges');
+        const res = await fetch('/api/colleges?v=' + collegesVersion);
         const data = await res.json();
-        for (const college of data.rows || []) {
+        const list = data.rows || [];
+        for (const college of list) {
           const option = document.createElement('option');
           option.value = String(college.id);
-          option.textContent = college.college_name + ' (' + college.district + ')';
+          option.textContent = college.college_name + (college.district ? ' (' + college.district + ')' : '');
           collegeEl.append(option);
         }
       }
