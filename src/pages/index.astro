@@ -657,6 +657,14 @@
         pointer-events: none;
       }
 
+      .card-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
       .card-accent {
         width: 12px;
         height: 12px;
@@ -678,14 +686,35 @@
 
       .card-title {
         font-family: 'Anton', Impact, sans-serif;
-        font-size: clamp(1.8rem, 5vw, 2.8rem);
-        line-height: 0.92;
+        font-size: clamp(28px, 8.5vw, 52px);
+        line-height: 0.88;
         text-transform: uppercase;
         max-width: 11ch;
         margin-top: 0.6rem;
         position: relative;
         z-index: 1;
         color: var(--ink);
+      }
+
+      .card-protest-banner {
+        margin: 10px 0;
+        background: var(--crimson);
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+      }
+
+      .card-protest-text {
+        font-family: 'Anton', Impact, sans-serif;
+        font-size: clamp(10px, 2.6vw, 16px);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: oklch(0.97 0.01 80);
+        line-height: 1;
       }
 
       .card-divider {
@@ -728,8 +757,9 @@
 
       .card-tags {
         color: oklch(0.65 0.02 310);
-        font-size: 0.7rem;
+        font-size: clamp(6.5px, 1.1vw, 8px);
         letter-spacing: 0.02em;
+        line-height: 1.8;
         position: relative;
         z-index: 1;
       }
@@ -750,7 +780,7 @@
         height: 80px;
         top: 0;
         right: 0;
-        opacity: 0.85;
+        opacity: 0.14;
         z-index: 0;
         pointer-events: none;
       }
@@ -761,7 +791,7 @@
         height: auto;
         bottom: -5%;
         right: -5%;
-        opacity: 0.6;
+        opacity: 0.08;
         z-index: 0;
         pointer-events: none;
       }
@@ -1434,7 +1464,7 @@
               </svg>
             </div>
             <p class="campaign-kicker">UP College Uniform Protest 2026</p>
-            <h1 class="headline">Scholars. Not Schoolchildren.</h1>
+            <h1 class="headline">Scholars. Not School children.</h1>
             <p class="hero-subhead">
               Uttar Pradesh's university students are adults, voters, and future professionals.
               A uniform mandate doesn't build discipline — it erases identity, burdens hostel
@@ -1655,17 +1685,26 @@
                   </g>
                   <text x="234" y="440" fill="#e11d48" font-family="Anton,Impact,sans-serif" font-weight="900" font-size="24" text-anchor="middle">NO TO UNIFORMS</text>
                 </svg>
-                <div class="card-accent"></div>
+                <div class="card-content" style="position:relative;z-index:2;display:flex;flex-direction:column;height:100%;">
+                  <div class="card-accent"></div>
                   <p class="card-kicker">UP CAMPUS COALITION 2026</p>
-                  <h3 class="card-title" id="card-title">Scholar. Not Schoolchild.</h3>
+                  <h3 class="card-title" id="card-title">Scholar. Not School child.</h3>
+                  <div class="card-protest-banner">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:14px;height:14px;flex-shrink:0;color:rgba(255,255,255,0.88);" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="5.6" y1="5.6" x2="18.4" y2="18.4"/></svg>
+                    <span class="card-protest-text">No Uniforms in Colleges</span>
+                  </div>
                   <div class="card-divider"></div>
                   <p class="card-label">VERIFIED SIGNATORY</p>
                   <p class="card-name" id="card-subtitle">[STUDENT_NAME]</p>
                   <p class="card-label">REPRESENTING CAMPUS</p>
                   <p class="card-college" id="card-college">[COLLEGE_NAME]</p>
                   <div class="card-divider"></div>
-                  <p class="card-tags">#NoToUPCollegeUniform · #MyCampusMyChoice</p>
+                  <p class="card-tags">
+                    #NoToUPCollegeUniform · #MyCampusMyChoice<br/>
+                    #AdultsNotKids
+                  </p>
                   <p class="card-message">Higher education is about developing independent intellect, not policing what students wear.</p>
+                </div>
               </div>
 
               <div>
