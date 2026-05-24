@@ -20,6 +20,11 @@ type CollegeRow = {
   updated_at: string;
 };
 
+function toIsoUtc(dt: string | null | undefined): string | null {
+  if (!dt) return null;
+  return dt.includes('T') ? dt : dt.replace(' ', 'T') + 'Z';
+}
+
 const app = new Hono<AppBindings>();
 const TEST_TURNSTILE_SECRET = '1x0000000000000000000000000000000AA';
 
@@ -179,7 +184,7 @@ app.get('/api/tally', async (c) => {
     c,
     {
       global_total: Number(row?.value ?? 0),
-      updated_at: updatedRow?.updated_at ?? new Date().toISOString(),
+      updated_at: toIsoUtc(updatedRow?.updated_at) ?? new Date().toISOString(),
     },
     200,
     { 'Cache-Control': cacheControl(ttl, ttl * 2) },
@@ -242,7 +247,7 @@ app.get('/api/leaderboard', async (c) => {
         vote_count,
       })),
       next_cursor: nextCursor,
-      updated_at: updatedAt === new Date(0).toISOString() ? new Date().toISOString() : updatedAt,
+      updated_at: updatedAt === new Date(0).toISOString() ? new Date().toISOString() : toIsoUtc(updatedAt) ?? updatedAt,
     },
     200,
     { 'Cache-Control': cacheControl(ttl, ttl * 2) },
@@ -277,7 +282,7 @@ async function projectVoteFallback(db: D1Database, event: VoteEvent): Promise<vo
   }
 
   await db.batch([
-    db.prepare('UPDATE colleges_list SET vote_count = vote_count + 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?').bind(
+    db.prepare(`UPDATE colleges_list SET vote_count = vote_count + 1, updated_at = datetime('now') WHERE id = ?`).bind(
       event.college_id,
     ),
     db.prepare("UPDATE stats SET value = value + 1 WHERE key = 'global_total'"),

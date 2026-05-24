@@ -48,7 +48,7 @@ export async function consumeVoteEvents(batch: MessageBatch<unknown>, env: Env):
   for (const [collegeId, increment] of increments.entries()) {
     statements.push(
       env.COLLEGES_DB.prepare(
-        'UPDATE colleges_list SET vote_count = vote_count + ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+        `UPDATE colleges_list SET vote_count = vote_count + ?, updated_at = datetime('now') WHERE id = ?`,
       ).bind(increment, collegeId),
     );
   }

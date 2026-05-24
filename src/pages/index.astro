@@ -1966,6 +1966,10 @@
             <button id="contact-reveal-btn">contact</button>
             <span class="email-reveal hidden" id="contact-email">goeltanmay442@outlook.com</span>
           </span>
+          <span class="footer-contact" id="footer-source">
+            <button id="source-reveal-btn">source code</button>
+            <a class="email-reveal hidden" id="source-link" href="https://github.com/tanmay442/noUniformInCllgsUp.git" target="_blank" rel="noreferrer">github.com/tanmay442/noUniformInCllgsUp</a>
+          </span>
         </div>
       </div>
     </footer>
@@ -2189,8 +2193,8 @@
         ].join('\n');
       }
 
-      function buildInstagramCaption(link) {
-        return 'Mandatory uniforms for UP college adults = public mockery. We are scholars, not schoolchildren. #NoToUPCollegeUniform';
+      function buildInstagramCaption(_link) {
+        return 'Cast your vote. nouniformcampusup.me #NoToUPCollegeUniform';
       }
 
       function updateSharePayload(institutionLabel) {
@@ -2258,7 +2262,8 @@
               hour: '2-digit',
               minute: '2-digit',
               second: '2-digit',
-            });
+              timeZone: 'Asia/Kolkata',
+            }) + ' IST';
         } catch {
           updatedEl.textContent = 'Live update temporarily unavailable';
         }
@@ -2798,7 +2803,6 @@
         contactRevealBtn.addEventListener('click', () => {
           if (contactRevealed) return;
 
-          const previous = contactRevealBtn.textContent;
           contactRevealBtn.disabled = true;
           let count = 20;
           contactRevealBtn.textContent = count;
@@ -2813,6 +2817,35 @@
               contactRevealBtn.disabled = false;
               contactEmailEl.classList.remove('hidden');
               contactRevealed = true;
+            }
+          }, 1000);
+        });
+      }
+
+      const sourceRevealBtn = document.getElementById('source-reveal-btn');
+      const sourceLinkEl = document.getElementById('source-link');
+
+      if (sourceRevealBtn) {
+        let sourceTimer = null;
+        let sourceRevealed = false;
+
+        sourceRevealBtn.addEventListener('click', () => {
+          if (sourceRevealed) return;
+
+          sourceRevealBtn.disabled = true;
+          let count = 30;
+          sourceRevealBtn.textContent = count;
+
+          sourceTimer = setInterval(() => {
+            count -= 1;
+            if (count > 0) {
+              sourceRevealBtn.textContent = count;
+            } else {
+              clearInterval(sourceTimer);
+              sourceRevealBtn.textContent = 'source code';
+              sourceRevealBtn.disabled = false;
+              sourceLinkEl.classList.remove('hidden');
+              sourceRevealed = true;
             }
           }, 1000);
         });

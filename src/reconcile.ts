@@ -15,13 +15,13 @@ export async function reconcileProjection(env: Env): Promise<void> {
     total_votes: number;
   }>();
 
-  await env.COLLEGES_DB.prepare('UPDATE colleges_list SET vote_count = 0, updated_at = CURRENT_TIMESTAMP').run();
+  await env.COLLEGES_DB.prepare(`UPDATE colleges_list SET vote_count = 0, updated_at = datetime('now')`).run();
 
   const updates: D1PreparedStatement[] = [];
 
   for (const row of authoritativeCounts.results ?? []) {
     updates.push(
-      env.COLLEGES_DB.prepare('UPDATE colleges_list SET vote_count = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?').bind(
+      env.COLLEGES_DB.prepare(`UPDATE colleges_list SET vote_count = ?, updated_at = datetime('now') WHERE id = ?`).bind(
         row.vote_count,
         row.college_id,
       ),

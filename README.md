@@ -1,99 +1,32 @@
-# UP Anonymous Protest Portal
+# No Uniform in UP Colleges — Protest Portal
 
-Cloudflare-native anonymous voting portal scaffold based on the project docs.
+A protest card preview and anonymous voting platform against mandatory college uniforms in Uttar Pradesh. Students can cast a verified anonymous vote, download a shareable protest card, and spread the word on Instagram and X.
 
-## What is implemented
+## How it works
 
-- Hono API worker (`src/worker.ts`) with routes:
-  - `POST /api/vote`
-  - `GET /api/tally`
-  - `GET /api/leaderboard`
-  - `GET /api/colleges`
-  - `GET /healthz`
-- D1 schema files:
-  - `migrations/votes.sql`
-  - `migrations/colleges.sql`
-- Queue consumer for projection updates (`src/queue.ts`)
-- Scheduled reconciliation job (`src/reconcile.ts`)
-- Seed + canonical starter directory:
-  - `data/colleges.json`
-  - `seed/colleges.sql`
+Visitors select their college from a searchable directory, pass Cloudflare Turnstile (privacy-first CAPTCHA), and submit one anonymous vote per device. A protest card with their name and institution is generated on the fly for sharing.
 
-## Local setup
+### Security & Anti-Abuse
 
-```bash
-pnpm install
-cp .dev.vars.example .dev.vars
-```
+- **Cloudflare Turnstile** — replaces traditional CAPTCHA with a frictionless, privacy-preserving bot check. No tracking, no data collection, no image puzzles.
+- **Device fingerprint** — a salted SHA-256 hash of browser fingerprint + IP is stored per vote. Duplicate submissions from the same device within a 24-hour window are rejected.
+- **Secrets at the edge** — Turnstile secret key and vote token pepper are stored as Cloudflare Workers Secrets, never committed or exposed client-side.
 
-Fill `.dev.vars`:
-- `TURNSTILE_SECRET`
-- `VOTE_TOKEN_PEPPER`
+### Scalability & Reliability
 
-Set a real `TURNSTILE_SITE_KEY` in `wrangler.toml` for each environment before expecting production votes to verify.
+- **Cloudflare Workers** — the entire API runs on Cloudflare's global edge network (300+ locations). Near-zero cold starts, automatic scaling from 1 to millions of requests.
+- **D1 (SQLite at the edge)** — each vote is a single row insert into D1, Cloudflare's serverless SQLite database. Reads are served from the nearest edge location via global replication; writes are coordinated through a single primary.
+- **Queue-based projection** — vote events are pushed to a Cloudflare Queue and consumed asynchronously to update the tally and leaderboard, keeping the write path fast and the read path eventually consistent.
 
-## Cloudflare resource setup
+### Data Layer
 
-```bash
-pnpm exec wrangler whoami
-pnpm exec wrangler d1 create votes_db
-pnpm exec wrangler d1 create colleges_db
-pnpm exec wrangler queues create vote-events
-```
+Two D1 tables underpin the platform:
 
-Then update IDs in `wrangler.toml`.
+| Table | Purpose |
+|---|---|
+| `colleges_list` | Canonical list of all UP colleges + a catch-all "Other / General Public" row (id=999). Populated from seed data. |
+| `votes` | Each row represents one verified vote: Turnstile token, device hash, selected college_id, and timestamp. |
 
-For environment separation, create separate resources too:
+Vote counts are maintained as a materialised projection (queue consumer) so leaderboard queries are a single fast read of ~100 rows rather than aggregate scans of the entire votes table.
 
-```bash
-pnpm exec wrangler d1 create votes_db_staging
-pnpm exec wrangler d1 create colleges_db_staging
-pnpm exec wrangler d1 create votes_db_prod
-pnpm exec wrangler d1 create colleges_db_prod
-pnpm exec wrangler queues create vote-events-staging
-pnpm exec wrangler queues create vote-events-prod
-```
-
-## Apply schema + seed
-
-```bash
-pnpm run db:apply:votes
-pnpm run db:apply:colleges
-pnpm run db:seed:colleges
-```
-
-## Secrets (required before real voting)
-
-```bash
-pnpm exec wrangler secret put TURNSTILE_SECRET
-pnpm exec wrangler secret put VOTE_TOKEN_PEPPER
-pnpm exec wrangler secret put TURNSTILE_SECRET --env staging
-pnpm exec wrangler secret put VOTE_TOKEN_PEPPER --env staging
-pnpm exec wrangler secret put TURNSTILE_SECRET --env production
-pnpm exec wrangler secret put VOTE_TOKEN_PEPPER --env production
-```
-
-## Run
-
-```bash
-pnpm run dev
-```
-
-## Build + Deploy
-
-```bash
-pnpm run build
-pnpm exec wrangler deploy
-```
-
-## Checks
-
-```bash
-pnpm run typecheck
-pnpm test
-```
-
-## Notes
-
-- Current college directory is starter data and should be replaced with the full canonical UP list before production.
-- Turnstile secret and hash pepper must be set via `wrangler secret put` per environment.
+Built with Astro, Hono, and Cloudflare Workers.
