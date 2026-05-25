@@ -1,0 +1,29 @@
+<section class="leaderboard-zone" id="vanguard">
+  <div class="shell">
+    <p class="section-kicker">Live momentum</p>
+    <h2>Vanguard Institutions</h2>
+    <p>
+      Every vote is a public signal. The top 5 institutions are shown below —
+      search yours to see where it stands.
+    </p>
+
+    <div class="leaderboard-search-wrap">
+      <svg class="leaderboard-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="leaderboard-search" placeholder="Search your college to see current momentum..." autocomplete="off"/>
+    </div>
+    <p class="lb-search-count" id="lb-search-count"></p>
+
+    <div class="leaderboard-wrap">
+      <div class="lb-header" aria-hidden="true">
+        <span class="lb-header-cell lb-header-cell--center">Rank</span>
+        <span class="lb-header-cell">Institution</span>
+        <span class="lb-header-cell lb-header-cell--center">Votes</span>
+      </div>
+      <div class="lb-list" id="leaderboard"></div>
+    </div>
+    <div class="leaderboard-no-result hidden" id="leaderboard-no-result"></div>
+  </div>
+</section>
