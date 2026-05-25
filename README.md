@@ -30,3 +30,6 @@ Two D1 tables underpin the platform:
 Vote counts are maintained as a materialised projection (queue consumer) so leaderboard queries are a single fast read of ~100 rows rather than aggregate scans of the entire votes table.
 
 Built with Astro, Hono, and Cloudflare Workers.
+
+
+To the people who contacted me saying that my databse and kv cahed id are in public , please do some research u cant acces them aka exploit them without the account id , so i am good , ik its best proctice to put them as a env var but i was feeling lazy and it wont hurt now that they're already commited , I do not wanna roll my credentials and go through hassel so I am fine , thanks for ur concerns tho ...
