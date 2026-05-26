@@ -144,11 +144,32 @@ p {
   margin-top: clamp(1.5rem, 4vw, 2.5rem);
 }
 
+.counter-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
 .counter-label {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.8rem;
   color: oklch(0.84 0.02 90);
+}
+
+.counter-live {
+  display: inline-flex;
+  align-items: center;
+}
+
+.counter-live-dot {
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  border-radius: 999px;
+  background: var(--crimson);
+  box-shadow: 0 0 0.75rem oklch(0.58 0.2 16 / 0.7);
+  animation: counter-live-pulse 1.7s ease-in-out infinite;
 }
 
 .counter {
@@ -1312,6 +1333,18 @@ pre {
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes counter-live-pulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
   }
 }
 

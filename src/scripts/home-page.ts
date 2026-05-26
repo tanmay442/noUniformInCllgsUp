@@ -47,7 +47,6 @@ let visibleMatches = [];
 let activeMatchIndex = -1;
 let selectedCollege = null;
 let currentCounter = 0;
-let previousCounterDisplay = '[ 0 ]';
 let leaderboardData = [];
 
 if (!localStorage.getItem(tokenKey)) {
@@ -67,7 +66,7 @@ function normalizeText(value) {
 }
 
 function formatCounter(value) {
-  return '[ ' + Number(value || 0).toLocaleString('en-IN') + ' ]';
+  return '[' + Number(value || 0).toLocaleString('en-IN') + ']';
 }
 
 function renderCounter(displayValue) {
@@ -98,7 +97,6 @@ function renderCounter(displayValue) {
     }
   });
 
-  previousCounterDisplay = displayValue;
 }
 
 function bumpCounter(value) {
