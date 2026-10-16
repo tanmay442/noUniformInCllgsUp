@@ -2,6 +2,15 @@
 
 A protest card preview and anonymous voting platform against mandatory college uniforms in Uttar Pradesh. Students can cast a verified anonymous vote, download a shareable protest card, and spread the word on Instagram and X.
 
+## Demo
+
+<p align="center">
+  <video src="https://github.com/user-attachments/assets/aaccc6f9-33b1-40f0-ab95-e2550f67db06" width="720" controls muted loop playsinline preload="metadata">
+    Your browser does not support the video tag.
+    <a href="https://github.com/user-attachments/assets/aaccc6f9-33b1-40f0-ab95-e2550f67db06">Watch the demo video</a>
+  </video>
+</p>
+
 ## How it works
 
 Visitors select their college from a searchable directory, pass Cloudflare Turnstile (privacy-first CAPTCHA), and submit one anonymous vote per device. A protest card with their name and institution is generated on the fly for sharing.
